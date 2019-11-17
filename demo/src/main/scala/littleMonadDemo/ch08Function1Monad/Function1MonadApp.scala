@@ -1,4 +1,4 @@
-package littleMonadDemo.ch07Function1Monad
+package littleMonadDemo.ch08Function1Monad
 
 import scala.util.chaining._
 

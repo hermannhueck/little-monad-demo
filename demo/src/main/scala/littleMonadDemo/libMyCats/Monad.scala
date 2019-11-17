@@ -57,6 +57,9 @@ object Monad {
       f(fa)
   }
 
+  // type ErrorOr[A] = Either[String, A]
+  // needs kind-projector in build.sbt
+
   implicit def eitherMonad[L]: Monad[Either[L, ?]] = new Monad[Either[L, ?]] {
 
     def pure[A](a: A): Either[L, A] =
@@ -64,5 +67,14 @@ object Monad {
 
     def flatMap[A, B](fa: Either[L, A])(f: A => Either[L, B]): Either[L, B] =
       fa flatMap f
+  }
+
+  implicit def function1Monad[P]: Monad[P => ?] = new Monad[P => ?] {
+
+    def pure[A](a: A): P => A =
+      _ => a
+
+    def flatMap[A, B](fa: P => A)(f: A => P => B): P => B =
+      p => f(fa(p))(p)
   }
 }

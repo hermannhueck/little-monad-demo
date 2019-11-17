@@ -5,6 +5,12 @@ import scala.util.chaining._
 import littleMonadDemo.libMyCats._
 import littleMonadDemo.libCompute.LibComputeWithMyCats._
 
+// uncomment for use with Cats instead of libMyCats
+// import cats._
+// import cats.data._
+// import cats.implicits._
+// import littleMonadDemo.libCompute.LibComputeWithCats._
+
 object Function1MonadApp extends util.App {
 
   val f1: Int => Int = (x => x + 1)

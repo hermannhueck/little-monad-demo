@@ -13,6 +13,10 @@ trait Monad[F[_]] {
   // other concrete methods implemented in terms
   // of flatMap and pure
 
+  // Haskell operator for flatMap
+  def >>=[A, B](fa: F[A])(f: A => F[B]): F[B] =
+    this.flatMap(fa)(f)
+
   final def map[A, B](fa: F[A])(f: A => B): F[B] =
     flatMap(fa)(a => pure(f(a)))
 

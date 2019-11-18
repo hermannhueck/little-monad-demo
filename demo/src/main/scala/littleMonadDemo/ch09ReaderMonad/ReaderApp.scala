@@ -29,9 +29,10 @@ object ReaderApp extends util.App {
 
   compute(rPlus1, rDoubled).run(10) pipe println // (11, 20)
 
-  // (r1 andThen r2).run(10) pipe println // 22
-  // (r1 andThen f2).run(10) pipe println // 22
-  // (f1 andThen f2)(10) pipe println     // 22
-  // f2(f1(10)) pipe println              // 22
+  println
 
+  (rDoubled compose rPlus1).run(10) pipe println // 22
+  (rDoubled compose plus1).run(10) pipe println  // 22
+  (rPlus1 andThen rDoubled).run(10) pipe println // 22
+  (rPlus1 andThen doubled).run(10) pipe println  // 22
 }

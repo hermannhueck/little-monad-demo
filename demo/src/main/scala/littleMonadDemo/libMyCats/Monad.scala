@@ -5,8 +5,13 @@ import scala.concurrent.ExecutionContext
 
 trait Monad[F[_]] {
 
+  // intrinsic abstract methods for Monad
+
   def pure[A](a: A): F[A]
   def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
+
+  // other concrete methods implemented in terms
+  // of flatMap and pure
 
   final def map[A, B](fa: F[A])(f: A => B): F[B] =
     flatMap(fa)(a => pure(f(a)))

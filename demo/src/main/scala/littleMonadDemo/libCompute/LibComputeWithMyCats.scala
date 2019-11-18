@@ -2,9 +2,6 @@ package littleMonadDemo.libCompute
 
 import littleMonadDemo.libMyCats._
 
-// import cats._
-// import cats.implicits._
-
 object LibComputeWithMyCats {
 
   def compute(i1: Int, i2: Int): (Int, Int) =

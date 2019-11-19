@@ -1,4 +1,5 @@
-# Chapter 01:
+# Chapter 01
+
 # for-comprehensions for Different Effect Types
 
 This the movivating example for the following chapters.

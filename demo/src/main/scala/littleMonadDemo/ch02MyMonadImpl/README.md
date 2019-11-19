@@ -1,4 +1,5 @@
-# Chapter 02:
+# Chapter 02
+
 # Monadic *compute*
 
 To abstract over the effect types (*List*, *Option*,

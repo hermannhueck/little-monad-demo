@@ -15,15 +15,15 @@ object IOAppConsole extends util.App {
   // description of the program
   // referentially transparent
   val hello: IO[String] = for {
-    _    <- IO(() => "What's your name?" pipe println)
-    name <- IO(() => scala.io.StdIn.readLine())
-    _    <- IO(() => s"\nHello $name!" pipe println)
-    tryy <- IO[String](() => {
+    _    <- IO.eval("What's your name?  " pipe print)
+    name <- IO.eval(scala.io.StdIn.readLine())
+    _    <- IO.eval { s"Hello $name!\n" pipe println }
+    tryy <- IO.eval {
              if (false)
                name
              else
                throw new RuntimeException("RuntimeException: bla bla")
-           })
+           }
   } yield tryy
 
   // interpretation / execution of the program

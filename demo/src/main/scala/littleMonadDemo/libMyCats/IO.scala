@@ -15,7 +15,8 @@ final case class IO[A](unsafeRun: () => A) {
     IO(() => f(unsafeRun()))
 
   def flatMap[B](f: A => IO[B]): IO[B] =
-    // type checks, but wrong impl: f(unsafeRun())
+    // type checks, but wrong impl:
+    // f(unsafeRun())
     IO(() => f(unsafeRun()).unsafeRun())
 
   // different unsafeRunXXX methods turn our IO
@@ -36,11 +37,32 @@ object IO {
   implicit val ioMonad: Monad[IO] = new Monad[IO] {
 
     override def pure[A](a: A): IO[A] =
-      IO(() => a)
+      IO.pure(a)
 
     override def flatMap[A, B](io: IO[A])(f: A => IO[B]): IO[B] =
       io flatMap f
   }
+
+  // eval is lazy, thunk is passed by name
+  // corresponds to Future.apply
+  def eval[A](thunk: => A): IO[A] =
+    IO(() => thunk)
+
+  // pure is eager, a is passed by value
+  // corresponds to Future.successful
+  def pure[A](a: A): IO[A] =
+    IO(() => a)
+
+  def succeed[A](a: A): IO[A] =
+    pure(a)
+
+  // same as pure but for errors; also eager
+  // corresponds to Future.failed
+  def raiseError[A](exception: Throwable): IO[A] =
+    IO(() => throw exception)
+
+  def fail[A](exception: Throwable): IO[A] =
+    raiseError(exception)
 
   // different fromXXX methods turn a classical
   // Try, Either or Future into an IO

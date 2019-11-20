@@ -12,28 +12,36 @@ object Example05 extends util.App {
     result
   }
 
+  // Function0
   val f0Verbose: Function0[Int] = new Function0[Int] {
     override def apply(): Int = someComputation()
   }
   f0Verbose.apply() pipe println
-  val f0 = () => someComputation()
+
+  val f0: () => Int = () => someComputation()
   f0() pipe println
 
+  // Function1
   val f1Verbose: Function1[Int, Int] = new Function1[Int, Int] {
     override def apply(x: Int): Int = x + 1
   }
   f1Verbose.apply(41) pipe println
-  val f1 = (x: Int) => x + 1
+
+  val f1: Int => Int = x => x + 1
   f1(41) pipe println
 
+  // Function2
   val f2Verbose: Function2[Int, Int, Int] = new Function2[Int, Int, Int] {
     override def apply(x: Int, y: Int): Int = x + y
   }
   f2Verbose.apply(40, 2) pipe println
-  val f2 = (x: Int, y: Int) => x + y
+
+  val f2: (Int, Int) => Int = (x, y) => x + y
   f2(40, 2) pipe println
 
   println
+
+  // different ways to define Function1
 
   val f1a: Function1[Int, Int] = (x: Int) => x + 1
   val f1b: Int => Int          = x => x + 1
@@ -48,6 +56,8 @@ object Example05 extends util.App {
   f1e(41) pipe println
 
   println
+
+  // Function composition: 'andThen' and 'compose'
 
   val plus1: (Int => Int)  = _ + 1
   val square: (Int => Int) = x => x * x

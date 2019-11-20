@@ -33,7 +33,7 @@ This is verbose and Scala has syntactic sugar for it:
 
 ```scala
 // All versions are semantically identical.
-val f2a: Function2[Int, Int, Int] =
+val f2a: (Int, Int) => Int =
     (x, y) => x + y
 
 val f2b: Function2[Int, Int, Int] =

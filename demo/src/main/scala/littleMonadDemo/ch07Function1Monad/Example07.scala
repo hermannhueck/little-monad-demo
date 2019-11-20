@@ -9,21 +9,22 @@ import littleMonadDemo.libCompute.WithMyCats._
 // import cats._
 // import cats.data._
 // import cats.implicits._
-// import littleMonadDemo.libCompute.LibComputeWithCats._
+// import littleMonadDemo.libCompute.WithCats._
 
 object Example07 extends util.App {
 
-  val f1: Int => Int = (x => x + 1)
-  val f2: Int => Int = (x => x * 2)
+  val plus1: Int => Int  = (x => x + 1)
+  val times2: Int => Int = (x => x * 2)
 
-  val f3: Function1[Int, (Int, Int)] = for {
-    i1 <- f1
-    i2 <- f2
+  val fn1: Function1[Int, (Int, Int)] = for {
+    i1 <- plus1
+    i2 <- times2
   } yield (i1, i2)
 
-  f3(10) pipe println
+  fn1(10) pipe println
 
-  compute(f1, f2).apply(10) pipe println // (11, 20)
-  val f4 = compute(f1, f2)
-  f4(10) pipe println // (11, 20)
+  compute(plus1, times2).apply(10) pipe println // (11, 20)
+
+  val fn2: Int => (Int, Int) = compute(plus1, times2)
+  fn2(10) pipe println // (11, 20)
 }

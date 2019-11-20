@@ -38,8 +38,25 @@ object Example06 extends util.App {
   List(1, 2, 3, 4).fold(0)((x, y) => x + y) pipe println
   List(1, 2, 3, 4).fold(1)((x, y) => x * y) pipe println
 
-  val fCombined1: Int => Int = lf1c.fold(identity[Int](_))((f, g) => f andThen g)
-  fCombined1(10) pipe println
-  val fCombined2: Int => Int = lf2d.fold(identity[Int] _)((f, g) => f andThen g)
-  fCombined2(10) pipe println
+  val fComposed1: Int => Int = lf1c.fold(identity[Int](_))((f, g) => f andThen g)
+  fComposed1(10) pipe println
+  val fComposed2: Int => Int = lf2d.fold(identity[Int] _)((f, g) => f andThen g)
+  fComposed2(10) pipe println
+
+  println
+  // Eta expansion:
+
+  // times2 is a method
+  def times2(x: Int): Int = x * 2
+
+  // explicitly expanding times2 to a function
+  List(1, 2, 3) map { x =>
+    times2(x)
+  } pipe println
+  // using the _
+  List(1, 2, 3) map { times2(_) } pipe println
+  // using the _ appended to the method name
+  List(1, 2, 3) map { times2 _ } pipe println
+  // implicit expansion just using the method name
+  List(1, 2, 3) map times2 pipe println
 }

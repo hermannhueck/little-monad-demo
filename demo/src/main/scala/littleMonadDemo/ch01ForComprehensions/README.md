@@ -4,9 +4,17 @@
 
 This is the motivating example for the following chapters.
 
-It contains three different _compute_ methods, all implemented
-in the same way, but for different effect types. The
-effect types are: _List_, _Option_ and _Future_.
+It contains three different _compute_ methods, all
+implemented in the same way, but for different effect
+types. The effect types are: _List_, _Option_ and _Future_.
+
+```scala
+def compute(list1: List[Int], list2: List[Int]): List[(Int, Int)] =
+  for {
+    i1 <- list1
+    i2 <- list2
+  } yield (i1, i2)
+```
 
 This is boilerplate as we repeat the same algorithm
 three times without changing anything but the effect type.
@@ -16,6 +24,15 @@ the same semantics as _compute_, but implemented with
 _flatMap_ and _map_. _compute2_ demonstrates that a
 for-comprehension is nothing but syntactic sugar for a
 sequence of _flatMap_'s followed by _map_.
+
+```scala
+  def compute2(list1: List[Int], list2: List[Int]): List[(Int, Int)] =
+    list1.flatMap { i1 =>
+      list2.map { i2 =>
+        (i1, i2)
+      }
+    }
+```
 
 In chapter 02 we will implement a compute method which
 abstracts over the effect type and will be usable with

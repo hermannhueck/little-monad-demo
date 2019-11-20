@@ -12,7 +12,7 @@ object ForComprehensions extends util.App {
       i2 <- list2
     } yield (i1, i2)
 
-  def compute2(list1: List[Int], list2: List[Int]) =
+  def compute2(list1: List[Int], list2: List[Int]): List[(Int, Int)] =
     list1.flatMap { i1 =>
       list2.map { i2 =>
         (i1, i2)

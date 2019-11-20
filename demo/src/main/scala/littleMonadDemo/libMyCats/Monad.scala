@@ -66,9 +66,8 @@ object Monad {
       f(fa)
   }
 
-  // type ErrorOr[A] = Either[String, A]
   // needs kind-projector in build.sbt
-
+  // fix left type param to a L
   implicit def eitherMonad[L]: Monad[Either[L, ?]] = new Monad[Either[L, ?]] {
 
     def pure[A](a: A): Either[L, A] =

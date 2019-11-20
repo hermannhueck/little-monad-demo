@@ -52,6 +52,11 @@ object FunctionsApp extends util.App {
   val plus1: (Int => Int)  = _ + 1
   val square: (Int => Int) = x => x * x
 
+  assert {
+    (plus1 andThen square)(42) ==
+      (square compose plus1)(42)
+  }
+
   val plus1Squared1 = plus1 andThen square
   plus1Squared1(5) pipe println
 
@@ -60,4 +65,22 @@ object FunctionsApp extends util.App {
 
   (square andThen plus1)(5) pipe println
   (plus1 compose square)(5) pipe println
+
+  println
+
+  // Tupling and Currying
+
+  val add: Function2[Int, Int, Int] = _ + _
+
+  val addTupled: ((Int, Int)) => Int = add.tupled
+
+  val pair: (Int, Int)  = (21, 21)
+  val sumFromTuple: Int = addTupled(pair) // 42
+  sumFromTuple pipe println
+
+  val addCurried: Int => Int => Int = add.curried
+
+  val plus40   = addCurried(40)
+  val sum: Int = plus40(2) // 42
+  sum pipe println
 }

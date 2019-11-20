@@ -105,7 +105,7 @@ _x_ and _y_ must be type annotated to _Id[Int]_ to be accepted as arguments to _
 takes _Int_'s when they are wrapped in an effect.
 
 Therefore we provide overloaded _compute_ method in
-littleMonadDemo.libCompute.LibComputeWithMyCats
+littleMonadDemo.libCompute.WithMyCats
 which take two _Int_'s and delegates to the monadic
 _compute_ annotating the _Int_ values as _Id[Int]_.
 

@@ -1,9 +1,9 @@
-package littleMonadDemo.ch09ReaderMonad
+package littleMonadDemo.ch08ReaderMonad
 
 import scala.util.chaining._
 
 import littleMonadDemo.libMyCats._
-import littleMonadDemo.libCompute.LibComputeWithMyCats._
+import littleMonadDemo.libCompute.WithMyCats._
 
 // uncomment for use with Cats instead of libMyCats
 // import cats._

@@ -2,9 +2,9 @@ package littleMonadDemo.ch04EitherMonad
 
 import scala.util.chaining._
 
-import littleMonadDemo.libCompute.LibComputeWithMyCats._
+import littleMonadDemo.libCompute.WithMyCats._
 
-object EitherMonad extends util.App {
+object Example04 extends util.App {
 
   val e1 = Right(13).withLeft[String]
   val e2 = Right(21).withLeft[String]

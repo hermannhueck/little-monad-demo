@@ -1,9 +1,9 @@
-package littleMonadDemo.ch08Function1Monad
+package littleMonadDemo.ch07Function1Monad
 
 import scala.util.chaining._
 
 import littleMonadDemo.libMyCats._
-import littleMonadDemo.libCompute.LibComputeWithMyCats._
+import littleMonadDemo.libCompute.WithMyCats._
 
 // uncomment for use with Cats instead of libMyCats
 // import cats._
@@ -11,7 +11,7 @@ import littleMonadDemo.libCompute.LibComputeWithMyCats._
 // import cats.implicits._
 // import littleMonadDemo.libCompute.LibComputeWithCats._
 
-object Function1MonadApp extends util.App {
+object Example07 extends util.App {
 
   val f1: Int => Int = (x => x + 1)
   val f2: Int => Int = (x => x * 2)

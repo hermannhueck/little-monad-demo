@@ -2,7 +2,7 @@ package littleMonadDemo.ch05Functions
 
 import scala.util.chaining._
 
-object FunctionsApp extends util.App {
+object Example05 extends util.App {
 
   private def someComputation(): Int = {
     val result = {

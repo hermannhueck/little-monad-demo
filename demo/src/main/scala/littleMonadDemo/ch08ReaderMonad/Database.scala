@@ -1,4 +1,4 @@
-package littleMonadDemo.ch09ReaderMonad
+package littleMonadDemo.ch08ReaderMonad
 
 final case class Database(
     users: Map[Int, String],

@@ -1,8 +1,8 @@
-package littleMonadDemo.ch10IOMonad
+package littleMonadDemo.ch09IOMonad
 
 import scala.util.chaining._
 
-import littleMonadDemo.libCompute.LibComputeWithMyCats._
+import littleMonadDemo.libCompute.WithMyCats._
 import littleMonadDemo.libMyCats._
 import scala.util.Try
 import scala.concurrent.ExecutionContext

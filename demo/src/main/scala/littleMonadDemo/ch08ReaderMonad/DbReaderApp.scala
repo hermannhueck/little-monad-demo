@@ -1,4 +1,4 @@
-package littleMonadDemo.ch09ReaderMonad
+package littleMonadDemo.ch08ReaderMonad
 
 import scala.util.chaining._
 

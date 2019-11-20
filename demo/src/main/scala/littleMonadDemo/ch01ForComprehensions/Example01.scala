@@ -4,7 +4,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-object ForComprehensions extends util.App {
+object Example01 extends util.App {
 
   def compute(list1: List[Int], list2: List[Int]): List[(Int, Int)] =
     for {

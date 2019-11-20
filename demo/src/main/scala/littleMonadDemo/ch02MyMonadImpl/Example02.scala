@@ -6,10 +6,10 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
-import littleMonadDemo.libCompute.LibComputeWithMyCats._
+import littleMonadDemo.libCompute.WithMyCats._
 // import cats.implicits._
 
-object MyMonadImpl extends util.App {
+object Example02 extends util.App {
 
   println("----- List:")
 

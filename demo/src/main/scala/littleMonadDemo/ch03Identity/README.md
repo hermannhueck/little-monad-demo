@@ -6,10 +6,12 @@ Our _compute_ method accepts and returns _List[Int]_ or
 any other effect type that has a Monad instance:
 _F[Int]: Monad_
 
-It does not accept and return simple _Int_ values. To be usable the _Int_'s must always be wrapped inside a monadic
+It does not accept and return simple _Int_ values. To be
+usable the _Int_'s must always be wrapped inside a monadic
 effect.
 
-To support simple _Int_'s we create a generic wrapper type for any _A_ - the Identity Monad.
+To support simple _Int_'s we create a generic wrapper
+type for any _A_ - the Identity Monad.
 
 We could design this wrapper as a case class:
 
@@ -22,6 +24,8 @@ But it is easier to define _Id_ as a type alias:
 ```scala
 type Id[A] = A
 ```
+
+See: _littleMonadDemo.libMyCats.package.scala_
 
 Now it is quite simple to define a Monad instance for _Id_
 inside the Monad companion. It's analogous to the Monad
@@ -36,6 +40,53 @@ override def pure[A](a: A): Id[A] =
 
 override def flatMap[A, B](fa: Id[A])(f: A => Id[B]): Id[B] =
     f(fa)
+}
+```
+
+_List_, _Option_ and other types from the Scala standard
+library already have methods _map_ and _flatMap_. Hence
+they can directly be used in for-comprehensions. _Id_
+doesn't have _map_ and _flatMap_.
+
+But we can add them as extension methods (defined with
+an implicit class), which are specific for the _Id_ type:
+
+```scala
+implicit class IdSyntax[A](fa: Id[A]) {
+
+  def flatMap[B](f: A => Id[B]): Id[B] =
+    Monad[Id].flatMap(fa)(f)
+
+  def map[B](f: A => B): Id[B] =
+    Monad[Id].map(fa)(f)
+}
+```
+
+But there is also a generic solution, which works for
+any type that has a Monad instance, but doesn't provide
+it's own _flatMap_ and _map_.
+
+```scala
+implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
+
+  def flatMap[B](f: A => F[B]): F[B] =
+    Monad[F].flatMap(fa)(f)
+
+  def map[B](f: A => B): F[B] =
+    Monad[F].map(fa)(f)
+}
+```
+
+This impl (using _Monad[F]_) relies on the Monad summoner
+provided in the _Monad_ comnpanion object.
+
+```scala
+object Monad {
+
+  // summoner
+  def apply[F[_]: Monad]: Monad[F] = implicitly[Monad[F]]
+
+  // ...
 }
 ```
 

@@ -77,6 +77,23 @@ object Monad {
       fa flatMap f
   }
 
+  /*
+  // This is how the eitherMonad impl would look like
+  // in Scala syntax without kind-projector
+  // using existential types and type projection.
+  // Let's forget that quickly.
+  //
+  implicit def eitherMonad[L]: Monad[({ type lambda[x] = Either[L, x] })#lambda] =
+  new Monad[({ type lambda[x] = Either[L, x] })#lambda] {
+
+    def pure[A](a: A): Either[L, A] =
+      Right(a)
+
+    def flatMap[A, B](fa: Either[L, A])(f: A => Either[L, B]): Either[L, B] =
+      fa flatMap f
+  }
+   */
+
   implicit def function1Monad[P]: Monad[P => ?] = new Monad[P => ?] {
 
     def pure[A](a: A): P => A =

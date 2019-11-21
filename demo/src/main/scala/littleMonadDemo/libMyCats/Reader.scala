@@ -6,7 +6,7 @@ final case class Reader[P, A](run: P => A) {
   // def provide(param: P): A = run(param)
 
   def map[B](f: A => B): Reader[P, B] =
-    // Reader(p => f(run(p)))
+    // Reader(p => f(run(p))) // is the same as:
     Reader(run andThen f)
 
   def flatMap[B](f: A => Reader[P, B]): Reader[P, B] =

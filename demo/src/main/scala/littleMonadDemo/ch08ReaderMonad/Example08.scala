@@ -11,12 +11,14 @@ import littleMonadDemo.libCompute.WithMyCats._
 // import cats.implicits._
 // import littleMonadDemo.libCompute.LibComputeWithCats._
 
-object ReaderApp extends util.App {
+object Example08 extends util.App {
 
   val plus1: Int => Int          = _ + 1
   val doubled: Int => Int        = _ * 2
   val rPlus1: Reader[Int, Int]   = Reader(plus1)
   val rDoubled: Reader[Int, Int] = Reader(doubled)
+
+  // Reader as Monad
 
   // description
   val rResult: Reader[Int, (Int, Int)] = for {
@@ -28,6 +30,8 @@ object ReaderApp extends util.App {
   rResult.run(10) pipe println
 
   compute(rPlus1, rDoubled).run(10) pipe println // (11, 20)
+
+  // compositon with Reader: compose and andThen
 
   println
 

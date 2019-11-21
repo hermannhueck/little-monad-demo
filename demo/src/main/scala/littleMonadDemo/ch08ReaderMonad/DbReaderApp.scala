@@ -20,7 +20,7 @@ object DbReaderApp extends util.App {
         .get(name)
     }
 
-  def hasUserPassword(userId: Int, password: String): Reader[Database, Boolean] =
+  def checkUserPassword(userId: Int, password: String): Reader[Database, Boolean] =
     Reader { db =>
       db.passwords
         .get(userId)
@@ -31,8 +31,9 @@ object DbReaderApp extends util.App {
 
   def checkLogin(username: String, password: String): Reader[Database, Boolean] =
     for {
-      id        <- getUserId(username).map(_.getOrElse(-1))
-      pwCorrect <- hasUserPassword(id, password)
+      optId     <- getUserId(username)
+      id        <- Reader.pure(optId.getOrElse(-1))
+      pwCorrect <- checkUserPassword(id, password)
     } yield pwCorrect
 
   checkLogin("kate", "acidburn").run(db) pipe println

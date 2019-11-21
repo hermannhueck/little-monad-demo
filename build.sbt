@@ -1,8 +1,8 @@
 import ScalacOptions._
 
-val projectName = "little-monad-demo"
+val projectName = "little-monad-tutorial"
 
-val projectDescription = "little demo of monads and functional programming techniques"
+val projectDescription = "Little Monad Tutorial in Scala"
 val projectVersion     = "0.0.1"
 
 inThisBuild(
@@ -32,15 +32,15 @@ inThisBuild(
 )
 
 lazy val root = (project in file("."))
-  .aggregate(demo)
+  .aggregate(tutorial)
   .settings(
     sourceDirectories := Seq.empty
   )
 
-lazy val demo = (project in file("demo"))
+lazy val tutorial = (project in file("tutorial"))
   .dependsOn(util)
   .settings(
-    name := "demo",
+    name := "tutorial",
     description := projectDescription
   )
 

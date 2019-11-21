@@ -10,7 +10,7 @@ import scala.util.Failure
 import scala.util.Success
 import scala.concurrent.Future
 
-object IOAppConsole extends util.App {
+object IOAppToXXX extends util.App {
 
   val random = scala.util.Random
 
@@ -20,41 +20,36 @@ object IOAppConsole extends util.App {
     else
       throw new RuntimeException("RuntimeException: bla bla")
 
-  // description of the program
-  // referentially transparent
-  val hello: IO[String] = for {
-    _    <- IO.eval("What's your name?  " pipe print)
-    name <- IO.eval(scala.io.StdIn.readLine())
-    _    <- IO.eval { s"Hello $name!\n" pipe println }
-    tryy <- IO.eval { somePossiblyFailingComputation(name) }
-  } yield tryy
+  val io = IO { () =>
+    somePossiblyFailingComputation(42)
+  }
 
   // interpretation / execution of the program
   // NOT referentially transparent
 
   def runHelloThrowingException(): Unit = {
-    hello
+    io
       .unsafeRun() // may throw an Exception
       .pipe(println)
   }
 
   def runHelloReturningTry(): Unit = {
-    hello
+    io
       .unsafeRunToTry()
-      .fold(t => println(t.getMessage), name => println(name))
+      .fold(t => println(t.getMessage), v => println(v))
   }
 
   def runHelloReturningEither(): Unit = {
-    hello
+    io
       .unsafeRunToEither()
-      .fold(t => println(t.getMessage), name => println(name))
+      .fold(t => println(t.getMessage), v => println(v))
   }
 
   def runHelloReturningFuture(): Unit = {
 
     implicit val ec: ExecutionContext = ExecutionContext.global
 
-    hello
+    io
       .unsafeRunToFuture
       .onComplete {
         case Failure(exception) => println(exception.getMessage)
@@ -64,7 +59,7 @@ object IOAppConsole extends util.App {
   }
 
   // runHelloThrowingException()
-  // runHelloReturningTry()
+  runHelloReturningTry()
   runHelloReturningEither()
-  // runHelloReturningFuture() // a termional program is not well suited to be run asynchronously.
+  runHelloReturningFuture()
 }

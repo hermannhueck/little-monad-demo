@@ -81,9 +81,6 @@ _Reader#flatMap_.
 ```scala
 object Reader {
 
-  def pure[P, A](a: A): Reader[P, A] =
-    Reader(_ => a)
-
   implicit def readerMonad[P]: Monad[Reader[P, ?]] = new Monad[Reader[P, ?]] {
 
     def pure[A](a: A): Reader[P, A] =
@@ -92,6 +89,9 @@ object Reader {
     def flatMap[A, B](fa: Reader[P, A])(f: A => Reader[P, B]): Reader[P, B] =
       fa flatMap f
   }
+
+  def pure[P, A](a: A): Reader[P, A] =
+    Reader(_ => a)
 }
 ```
 

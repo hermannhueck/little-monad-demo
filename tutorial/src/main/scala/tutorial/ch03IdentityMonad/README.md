@@ -19,15 +19,13 @@ We could design this wrapper as a case class:
 case class Id[A](value: A)
 ```
 
-But it is easier to define _Id_ as a type alias:
+But it's easier to define _Id_ as a type alias:
 
 ```scala
 type Id[A] = A
 ```
 
-See: _littleMonadDemo.libMyCats.package.scala_
-
-Now it is quite simple to define a Monad instance for _Id_
+Now it's quite simple to define a Monad instance for _Id_
 inside the Monad companion. It's analogous to the Monad
 instances for _List_, _Option_ and _Future_ we already
 defined.
@@ -62,7 +60,7 @@ implicit class IdSyntax[A](fa: Id[A]) {
 }
 ```
 
-But there is also a generic solution, which works for
+Alternatively we can use a generic solution which works for
 any type that has a Monad instance, but doesn't provide
 it's own _flatMap_ and _map_.
 
@@ -77,8 +75,8 @@ implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
 }
 ```
 
-This impl (using _Monad[F]_) relies on the Monad summoner
-provided in the _Monad_ comnpanion object.
+This implementation (using _Monad[F]_) relies on the Monad summoner
+provided in the _Monad_ companion object.
 
 ```scala
 object Monad {
@@ -104,10 +102,10 @@ val result = compute(x, y)
 _x_ and _y_ must be type annotated to _Id[Int]_ to be accepted as arguments to _compute_. _compute_ only
 takes _Int_'s when they are wrapped in an effect.
 
-Therefore we provide overloaded _compute_ method in
-tutorial.libCompute.WithMyCats
-which take two _Int_'s and delegates to the monadic
-_compute_ annotating the _Int_ values as _Id[Int]_.
+Therefore we provide an overloaded _compute_ method in
+_tutorial.libCompute.WithMyCats_
+which takes two _Int_'s and delegates to the monadic
+_compute_, annotating the _Int_ values as _Id[Int]_.
 
 ```scala
 def compute(i1: Int, i2: Int): (Int, Int) =

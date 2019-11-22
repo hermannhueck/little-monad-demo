@@ -2,13 +2,13 @@
 
 # Function1 Monad
 
-When implementing a Monad instance for _Function1_ let's
+While implementing a Monad instance for _Function1_, let's
 have a look at the _Either_ Monad again. _Function1_ has
 two type parameters like _Either_. Again _flatMap_ and
 _map_ apply to the rightmost type parameter and leave the
-other ones untouched. For _Function1_ that means _flatMap_
+other ones untouched. For _Function1_ this means _flatMap_
 and _map_ operate on the result of the _Function1_, not
-on it's parameter.
+on it's argument.
 
 With this in mind we can easily implement the _Function1_
 Monad instance analogously to the _Either_ Monad instance.
@@ -42,10 +42,10 @@ def flatMap[A, B](fa: P => A)(f: A => P => B): P => B =
 }
 ```
 
-Unlike _List_, _Option_, _Future_ and _Either_ _Function1_
-does not provide it's own impl of _map_ and _flatMap_. To
-be usable in for-comprehensions _Function1_ also requires
-these as extension methods which we already defined in
+Unlike _List_, _Option_, _Future_ and _Either_, _Function1_
+does not provide it's own implementation of _map_ and _flatMap_.
+In order to be usable in for-comprehensions, _Function1_ also requires
+these as extension methods. We already defined them in
 _libMyCats/package.scala_ when implementing the Identity
 Monad.
 

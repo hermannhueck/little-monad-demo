@@ -18,7 +18,7 @@ transparency, e.g.:
 - database access
 - network access
 
-... all the things, that make a real world program.
+... all the things that constitute a real world program.
 
 ## Interpreter pattern again
 
@@ -32,7 +32,7 @@ used in our _Reader_ Monad examples.
 
 While defining and composing our side-effecting functions
 our program remains referentially transparent as long as we
-do not execute it. This part should make 90 % or more of
+do not execute it. This part should represent 90 % or more of
 our entire program. The side-effects do not happen before
 we execute the program. This can be a final one-liner.
 
@@ -61,14 +61,14 @@ object HelloWithFunction0 extends App {
 In this small example we define two _Function0_'s and a
 method which returns a _Function0_. These _Function0_
 instances are executed one by one by appending a pair
-of parenthesis to the end of these functions.
+of parentheses to the end of these functions.
 
 The three functions cannot easily be composed, because
 _Function0_ does not provide _map_ and _flatMap_.
 
 Aside: _() => A_ is syntactic sugar for _Function0[A],
 where the empty parens denote an empty parameter list
-and _A_ is the polymorphic return type.
+and \_A_ is the polymorphic return type.
 
 Just as with _Function1_ there are two approaches to
 solve this problem:
@@ -80,12 +80,12 @@ solve this problem:
 
 ## _IO_
 
-Like _Reader_ _IO_ is a case class wrapper around a
+Like _Reader_, _IO_ is a case class wrapper around a
 function. _Reader_ wrapped a _Function1_, _IO_ wraps a
 _Function0_.
 
-The wrapped function - this time we call it _unsafeRun_
-- delays the side-effects until executed.
+The wrapped function - this time we call it
+_unsafeRun_ - delays the side-effects until executed.
 
 We first implement _map_ and _flatMap_ for _IO_.
 
@@ -101,14 +101,14 @@ final case class IO[A](unsafeRun: () => A) {
 ```
 
 _map_ applies _f_ to the result of _unsafeRun()_ and wraps
-the hole _Function0_ in an _IO_. _flatMap_ also applies _f_
+the whole _Function0_ in an _IO_. _flatMap_ also applies _f_
 to the result of _unsafeRun()_. This gives us an _IO[B]_
 where we need a _B_. So we invoke _unsafeRun()_ again on
 the result of _f(unsafeRun())_ and get a _B_. Then we wrap
 the _Function0_ in an _IO_.
 
-Having defined _map_ and _flatMap_ for _IO_ we can impl
-a Monad instance in the _IO_ companion analogously to
+Having defined _map_ and _flatMap_ for _IO_ we can implement
+a Monad instance in the _IO_ companion object analogously to
 _Reader_.
 
 ```scala
@@ -129,8 +129,8 @@ object IO {
 ```
 
 Now we are able to compose the console input and output
-functions from above into a little Hello program which we
-execute a the very end. As usual we use a for-comprehension.
+functions from above into a little "Hello" program which we
+execute at the very end. As usual we use a for-comprehension.
 The impure invocation of the program becomes a one-liner.
 
 ```scala
@@ -165,12 +165,12 @@ Again, the result of _compute_ is not the final result of
 the computation. The result of _compute_ is another _IO_
 which returns the final result when executed. _compute_
 used with _IO_ (like _Reader_) returns a new program.
-Unlike _Reader_ _IO_ doesn't require any input parameter,
+Unlike _Reader_, _IO_ doesn't require any input parameter,
 as it encapsulates a _Function0_, not a _Function1_.
 
-That is the gist of _IO_.
+This is the gist of _IO_.
 
-But of course we can add more functionality to it thus
+But of course we can add more functionality to it, thus
 giving the user more convenience when using _IO_.
 
 ## _unsafeRunToTry_, _unsafeRunToEither_, _unsafeRunToFuture_
@@ -179,7 +179,7 @@ When we invoke _unsafeRun_ bad things can happen.
 _unsafeRun_ might throw an exception.
 
 _unsafeRunToTry_ catches this possible exception and
-returns a _Try[A]_ instead of an _A_. But some times
+returns a _Try[A]_ instead of an _A_. But sometimes
 we would prefer an _Either_ at the call site. For this
 purpose we also provide _unsafeRunToEither_, so that
 the call site user can choose the best fit for her.
@@ -234,7 +234,7 @@ structures. But we can also go the other way round.
 
 These methods turn a _Try_, _Either_ or _Future_ into an
 IO. They are factory methods defined in the _IO_ companion
-object which create a new _IO_ from these data structures.
+object which creates a new _IO_ from these data structures.
 
 The implementation:
 
@@ -253,16 +253,16 @@ The implementation:
 ```
 
 _fromTry_ takes the value from the _Try_ with _Try#get_.
-This might again throw an exception when executed. That
-doesn't hurt us as this is done in a _Function0_ which is
+This might again throw an exception when executed. It
+won't hurt us as this is done in a _Function0_ which is
 not yet executed. The same is true for _fromEither_,
 where the _Either_ instance is turned into a _Try_, from
 which we then get the wrapped value (or the exception).
 
-_IO.fromFuture_ takes a _Future_ as by name parameter.
+_IO.fromFuture_ takes a _Future_ as a by name parameter.
 Call by name prevents the future from being executed
 eagarly. With call by value the future would have been
-executed before it is passed to the _fromFuture_ method.
+executed before being passed to the _fromFuture_ method.
 
 The call site:
 
@@ -290,7 +290,7 @@ io3.unsafeRunToXXX
 ```
 
 To execute _io1_, _io2_ and _io3_ any _unsafeRunXXX_
-invocation can be applied, depending what kind of result
+invocation can be applied, depending on what kind of result
 the caller needs.
 
 ## _IO.eval_
@@ -304,13 +304,13 @@ _IO.eval_ takes a thunk, a computation which returns a
 result of type _A_, but may also throw an exception
 or produce a side-effect.
 
-The thunk is passed by name what prevents the thunk from
-being executed before it is passed to _eval_. The impl of
-_eval_ doesn't either evaluate it; it creates a
+The thunk is passed by name which prevents the thunk from
+being executed before being passed to _eval_. The implementation of
+_eval_ also doesn't evaluate it; it creates a
 _Function0_ from the thunk: _() => thunk_ and wraps it in
-an _IO_, what results in: _IO(() => thunk)_
+an _IO_, which results in: _IO(() => thunk)_
 
-That makes it a bit more convenient at the call site to
+This makes it a bit more convenient at the call site to
 create an _IO_'s using _eval_.
 
 ```scala
@@ -336,7 +336,7 @@ val hello: IO[Unit] = for {
 
 ## _eval_ and _pure_ (or _succeed_)
 
-These two functions are defined in the _IO_ companion.
+These two functions are defined in the _IO_ companion object.
 Their implementations are exactly the same, they only
 differ in their parameter.
 
@@ -360,23 +360,23 @@ _A_ <u>by name</u>. It is lazy and is intended to be used
 with computations returning an _A_. The computation is
 executed when the _IO_ is run.
 
-If you had passed a computation to _pure_, the computation
-would have been evaluated eagerly. The result would
-have been computed before it is passed to _pure_. That
-is possible, but it's not what _pure_ is intended for.
+If you passed a computation to _pure_, the computation
+would be evaluated eagerly. The result would
+be computed before being passed to _pure_. You can do this,
+but it's not what _pure_ is intended for.
 
 _IO.succeed_ is just an alias for _IO.pure_
 
 ## _raiseError_ (or _fail_)
 
-_pure_ creates an _IO_, that is guaranteed to succeed
+_pure_ creates an _IO_ which is guaranteed to succeed
 (hence the alias _succeed_). _IO.raiseError_ creates
-an _IO_, that is guaranteed to fail (hence the alias
+an _IO_ which is guaranteed to fail (hence the alias
 _fail_). Just as _pure_ takes a pure value, _raiseError_
 take a pure _Throwable_ to indicate failure.
 
 The implementation of _raiseError_ wraps the throwing
-of the exception in an _IO_ thuns preventing from being
+of the exception in an _IO_, thus preventing it from being
 executed immediately.
 
 ```scala
@@ -387,5 +387,5 @@ def fail[A](exception: Throwable): IO[A] =
   raiseError(exception)
 ```
 
-_raiseError_ and _fail_ are eager like _pure_ and
+_raiseError_ and _fail_ are eager, like _pure_ and
 _succeed_.

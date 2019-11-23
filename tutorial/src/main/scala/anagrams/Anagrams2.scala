@@ -4,15 +4,6 @@ import scala.util.chaining._
 
 object Anagrams2 extends util.App {
 
-  // primitive tests
-
-  (List() == anagramsFor("Rust", List("Rust"))) pipe println
-  (List() == anagramsFor("Rust", List("rust"))) pipe println
-  (List() == anagramsFor("Rust", List("rusty"))) pipe println
-  (List() == anagramsFor("Rust", List("yrust"))) pipe println
-  (List("urst", "srut", "surt", "tsru", "tsur") ==
-    anagramsFor("Rust", List("urst", "srut", "surt", "tsru", "tsur", "rust"))) pipe println
-
   // check List of possible anagrams against word
   // solution 2: deletes found character in word
 
@@ -39,6 +30,19 @@ object Anagrams2 extends util.App {
 
   def deleteFrom(chars: List[Char], ch: Char): List[Char] =
     chars.takeWhile(_ != ch) ++ chars.dropWhile(_ != ch).tail
+
+  // primitive tests
+
+  anagramsFor("Rust", List("Rust"))
+    .ensuring(_ == List()) pipe println
+  anagramsFor("Rust", List("rust"))
+    .ensuring(_ == List()) pipe println
+  anagramsFor("Rust", List("rusty"))
+    .ensuring(_ == List()) pipe println
+  anagramsFor("Rust", List("yrust"))
+    .ensuring(_ == List()) pipe println
+  anagramsFor("Rust", List("urst", "srut", "surt", "tsru", "tsur", "rust", "trust", "trusty"))
+    .ensuring(_ == List("urst", "srut", "surt", "tsru", "tsur")) pipe println
 }
 
 /* Rust

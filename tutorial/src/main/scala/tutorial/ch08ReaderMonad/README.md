@@ -12,11 +12,11 @@ as extension methods for _Function1_.
 We did that in the last chapter. We provided _flatMap_ and
 _map_ in the _implicit class MonadSyntax_. _MonadSyntax_
 was implemented in a generic way. It provided _map_ and
-_flatMap_ for any effect type that does not have it's own
+_flatMap_ for any effect type which does not have it's own
 _map_ or _flatMap_. The compiler looks up extension methods
 in implicit classes only if it doesn't find such a method
 on the type in question. _List_ for example provides it's
-own method _flatMap_. The compiler uses this one and does
+own _flatMap_ method. The compiler uses this one and does
 not look up an extension method defined by an implicit
 class (or an implicit conversion).
 
@@ -24,11 +24,11 @@ To provide a large bunch of functionality via extension
 methods would be an overuse of this technique. With
 _Reader_ we take a different approach. We wrap our
 _Function1_ in a case class named _Reader_ and define
-_map_, _flatMap_ and a bunch of other useful combinators
-as methods of the _Reader_ case class. Implementing
-_Reader_ ourselves we also have full control over the
-_Reader_ companion and can provide smart constructors /
-factory methods in the companion.
+_map_, _flatMap_, and a bunch of other useful combinators
+as methods of the _Reader_ case class. By implementing
+_Reader_ ourselves, we also have full control over the
+_Reader_ companion object and can provide smart constructors /
+factory methods in the companion object.
 
 ## _Reader#map_ and _Reader#flatMap_
 
@@ -50,31 +50,31 @@ final case class Reader[P, A](run: P => A) {
 }
 ```
 
-_Reader_ (like _Function1_) has two type params, we use
+_Reader_ (like _Function1_) has two type parameters, we use
 _P_ for the parameter or input type and _A_ for the
 output or result type.
 
 The wrapped _run_ is a function from P => A and _map_
 gives us another function _f_ from _A_ => _B_. _map_ applies
 _f_ to the result of _run_. The _map_ implementation
-applies _run_ to the param _p_ and then it applies _f_
+applies _run_ to the parameter _p_ and then it applies _f_
 to the result of _run_. It is just a composition of _run_
-and _f_ with _Function1#andThen_, that is again wrapped
+and _f_ with _Function1#andThen_, which is again wrapped
 in a _Reader_.
 
-_flatMap_ is not much different. We also wrap the impl
-on _Function1_ inside a _Reader_. The wrapped impl is a
-function from _P_ => _B_. So the expression rigth to the
-function _=>_ must give us a _B_. But the expression _f(run(p))_
+_flatMap_ is not much different. We also wrap the implementation
+of _Function1_ inside a _Reader_. The wrapped implementation is a
+function from _P_ => _B_. So the expression to the right of the
+function arrow (_=>_) must give us a _B_. But the expression _f(run(p))_
 gives us a _Reader[P, B]_. If we run this _Reader_ again
-on the parameter _p_, we get a result of type _B_.
+on the parameter _p_, we finally get a result of type _B_.
 
 That's TDD: Type driven development!
 
 ## _Reader_ Monad instance
 
-Having implemented _map_ and _flatMap_ on _Reader_ it is
-easy to define a Monad instance in the companion object,
+Having implemented _map_ and _flatMap_ on _Reader_, it is
+easy to define a Monad instance in the companion object
 which implements _pure_ and delegates _flatMap_ to
 _Reader#flatMap_.
 
@@ -98,19 +98,19 @@ object Reader {
 We provide two implementations of _pure_:
 
 1. The first one (_Reader.pure_) is defined directly on
-   the companion. To lift a pure value of type _A_ into
+   the companion object. To lift a pure value of type _A_ into
    the _Reader_ context it ignores any possible input and
-   returns the _A_ value as result: _Reader(\_ => a)_.
+   returns the _A_ value as the result: _Reader(\_ => a)_.
    _Reader.pure_ can be used in application code.
 
-2. The other _pure_ is part of the _Reader_ Monad impl
-   and just delegates to the _pure_ impl defined on the
-   companion. This one is required for the implementation
+2. The other _pure_ is part of the _Reader_ Monad implementation
+   and just delegates to the _pure_ implementation defined in the
+   companion object. This one is required for the implementation
    of our Monad instance.
 
 As _Reader_ has a Monad instance it now can be used in
 for-comprehensions and we can pass instances of _Reader_
-to our generic _comput_ method.
+to our generic _compute_ method.
 
 ```scala
 val rPlus1: Reader[Int, Int]   = Reader(_ + 1)
@@ -126,7 +126,7 @@ val result = rCompute.run(10) // (11, 20)
 Used with _Reader_ our _compute_ method doesn't compute
 the final result. In this case _compute_ just gives us
 a _Reader_ back which allows us to compute a result for
-a provided input. To get a result in the example above
+a given input. To get a result in the example above
 we apply _rCompute.run_ to the input _10_.
 
 This is the <u>interpreter pattern</u> which is typical
@@ -134,20 +134,20 @@ for functional programming.
 
 1. First we construct a program by composing different
    functions together. (In Scala we typically use a
-   for-comprehension for thisn purpose.) This can be seen
-   as a program <u>description</u>.
+   for-comprehension for this purpose.) This can be seen
+   as the program __description__.
 
 2. Finally we invoke the program by providing some input.
-   This is the program execution or <u>interpretation</u>.
+   This is the program execution or __interpretation__.
 
 We will see this pattern again when implementing the IO
 Monad.
 
 ## _andThen_ and _compose_
 
-As we want ot give our _Reader_ the same semantics as
-_Function1_ provides we also implement _andThen_ and
-_compose_ for _Reader_. These methods defined on _Reader_
+As we want to give our _Reader_ the same semantics as
+_Function1_, we also implement the methods _andThen_ and
+_compose_ for it. These methods defined on _Reader_
 basically delegate to the respective methods on
 _Function1_.
 
@@ -175,7 +175,7 @@ _compose_ such that we cannot only compose a _Reader_ with
 another _Reader_, but also compose a _Reader_ with a
 _Function1_. Thus you get a bit more convenience at the
 call site. You are not forced to wrap a _Function1_ in a
-_Reader_, in order to compose it with another _Reader_.
+_Reader_ in order to compose it with another _Reader_.
 
 ```scala
 val plus1: Int => Int          = _ + 1
@@ -191,8 +191,8 @@ val res2 = (rPlus1 andThen doubled).run(10)  // 22
 
 ## Why is it called _Reader_?
 
-The _Reader_'s input is only read and never written. That
-is defferent in the _Writer_ Monad and in the _State_
+The _Reader_'s input is only read and never written. This
+is different to the _Writer_ Monad and the _State_
 Monad. That's why it's called _Reader_.
 
 The input is supplied at the very end, when you finished
@@ -246,8 +246,8 @@ def checkLogin(
 
 We just composed a wrapped function which is not yet
 executed / interpreted. We had to inject a _Database_
-instance to get the database queries executed in order
-to receive the final query result.
+instance for the database queries to be executed and
+receive the final query result.
 
 ```scala
 val correct = checkLogin("kate", "acidburn").run(db)

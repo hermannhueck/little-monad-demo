@@ -13,10 +13,10 @@ trait Monad[F[_]] {
 }
 ```
 
-_Either_ has two type params ... what makes the implementation of the _Either_ Monad a bit more
+_Either_ has two type params... which makes the implementation of the _Either_ Monad a bit more
 difficult.
 
-First we need to consider the fact, that _map_ and
+First we need to consider the fact that _map_ and
 _flatMap_ (and also _flatten_) only apply to the right
 most type parameter of a parameterized type. That means
 for _Either_: _map_ applied to a _Left_ leaves the
@@ -61,7 +61,7 @@ parameter which allows us to define an _Either_ Monad
 instance.
 
 The question mark syntax in _Monad[Either[L, ?]]_ is not
-regular Scala syntax. For this to work we need to add
+regular Scala syntax. In order for this to work we need to add
 an extra compiler plugin to our _build.sbt_:
 _kind-projector_
 
@@ -80,14 +80,14 @@ Monad[Either[L, ?]]
 ```
 
 The same principle holds for the implementation of Monad
-instances for any other type with more than on type
-param. When implementing the Monad instances for
+instances for any other type with more than one type
+parameter. When implementing the Monad instances for
 _Function1_ and _Reader_ in the subsequent chapters, we
-will proceed the same way.
+will proceed in the same way.
 
-The impl of the _Either_ Monad is straightforward: _pure_
+The implementation of the _Either_ Monad is straightforward: _pure_
 lifts a value into a _Right_ and _flatMap_ just
-delegates to the _flatMap_ impl of _Either_:
+delegates to the _flatMap_ implementation of _Either_:
 
 ```scala
 def pure[A](a: A): Either[L, A] =

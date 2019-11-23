@@ -2,16 +2,16 @@
 
 # Functions
 
-Before writing the _Function1_ Monad we have to get a
+Before writing the _Function1_ Monad, we have to get a
 good understanding of Scala functions.
 
-Scala has 23 function traits, _Function0_, _Function1_
+Scala has 23 function traits, _Function0_, _Function1_, ...
 up to _Function22_. The number encoded in the name
 designates the number of arguments a function accepts.
-The number of type params is one more than the number
-of params, as they all require one additional type param
+The number of type parameters is one more than the number
+of arguments, as they all require one additional type parameter
 for the return type. E.g. _Function2_ takes two
-parameters, but it has three type parameters.
+arguments, but it has three type parameters.
 
 ```scala
 trait Function2[-T1, -T2, +R] { // simplified
@@ -59,10 +59,10 @@ val f1c: Int => Int          = _ + 1
 This is just a repetition of basic Scala knowledge.
 
 _Function1_ plays a central role in the Scala function
-system ... for two reasons:
+system... for two reasons:
 
 1. _Function1_ is composable.
-2. Other functions (except _Function0_) can easyly be
+2. Other functions (except _Function0_) can easily be
    converted to a _Function1_.
 
 ## Composition of _Function1_
@@ -96,7 +96,7 @@ trait Function[-T, +R] { // simplified
 ```
 
 _Function2_ to _Function22_ do not provide _andThen_ and
-_compose_, as the number of params is not equal to the
+_compose_, as the number of parameters is not equal to the
 number of return values.
 
 Instead these functions provide means to convert them to
@@ -129,12 +129,12 @@ val sumFromTuple: Int = addTupled(pair) // 42
 
 More useful than tupling is currying. All _FunctionN_
 provide a method _curried_, which turns this _FunctionN_
-into a _Function1_, that accepts the first argument and
-returns another function, which takes the remaining
+into a _Function1_ that accepts the first argument and
+returns another function which then takes the remaining
 arguments (also one by one).
 
-That allows to partially apply the functions to the
-arguments. That is why "Currying" is also called
+This allows to partially apply the functions to the
+arguments. For this reason "Currying" is also called
 "partial application".
 
 In the simplest case of _Function2_ (see below) we curry
@@ -156,7 +156,7 @@ val plus40   = addCurried(40)
 val sum: Int = plus40(2) // 42
 ```
 
-_Function1_ is much better composable as _FunctionN_.
+_Function1_ is much better composable than _FunctionN_.
 It is also the conversion target of _FunctionN_
 (where N > 1).
 
@@ -167,4 +167,4 @@ to legitimate our choice of defining a Monad instance
 for it or wrapping it in a case class (Reader Moand) in
 the subsequent chapters.
 
-We will then have a look at _Function0_ when we implement the IO Monad.
+We will later have a look at _Function0_ when we implement the IO Monad.

@@ -1,6 +1,6 @@
 # Chapter 01
 
-# for-comprehensions for Different Effect Types
+# for-comprehensions for different effect types
 
 This is the motivating example for the following chapters.
 
@@ -38,3 +38,8 @@ In chapter 02 we will implement a compute method which
 abstracts over the effect type and will be usable with
 _List_, _Option_, _Future_ and any other effect type
 which has a Monad instance.
+
+To abstract over the effect types (_List_, _Option_,
+_Future_), we will use a Monad. A Monad provides us with
+(among other operators) _flatMap_ and _map_. It allows
+us to implement

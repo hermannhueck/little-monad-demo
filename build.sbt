@@ -38,17 +38,7 @@ lazy val root = (project in file("."))
   )
 
 lazy val tutorial = (project in file("tutorial"))
-  .dependsOn(util)
   .settings(
     name := "tutorial",
     description := projectDescription
-  )
-
-lazy val util = (project in file("util"))
-  .enablePlugins(BuildInfoPlugin)
-  .settings(
-    name := "util",
-    description := "Utilities",
-    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-    buildInfoPackage := "build"
   )

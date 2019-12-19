@@ -5,8 +5,11 @@ import tutorial.libMyCats._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
 import scala.util.chaining._
+import util._
 
-object IOAppFromXXX extends util.App {
+object IOAppFromXXX extends App {
+
+  lineStart() pipe println
 
   "\n----- IO.fromTry:" pipe println
 
@@ -47,4 +50,6 @@ object IOAppFromXXX extends util.App {
 
   // just to prevent the main thread from being terminated before the Future has finished executing.
   Thread sleep 1000L
+
+  lineEnd() pipe println
 }

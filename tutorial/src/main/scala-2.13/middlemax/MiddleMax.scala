@@ -1,8 +1,11 @@
 package middlemax
 
 import scala.util.chaining._
+import util._
 
-object MiddleMax extends util.App {
+object MiddleMax extends App {
+
+  lineStart() pipe println
 
   def middlemax[T: Ordering](xs: List[T]): List[T] = {
 
@@ -35,4 +38,6 @@ object MiddleMax extends util.App {
   List(1, 2, 3, 4, 5).mimax.ensuring {
     _ == List(1, 3, 5, 4, 2)
   } pipe println
+
+  lineEnd() pipe println
 }

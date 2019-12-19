@@ -1,10 +1,13 @@
 package tutorial.examples08
 
 import scala.util.chaining._
+import util._
 
 import tutorial.libMyCats._
 
-object Example08 extends util.App {
+object Example08 extends App {
+
+  lineStart() pipe println
 
   val plus1: Int => Int          = _ + 1
   val doubled: Int => Int        = _ * 2
@@ -32,4 +35,6 @@ object Example08 extends util.App {
   (rDoubled compose plus1).run(10) pipe println  // 22
   (rPlus1 andThen rDoubled).run(10) pipe println // 22
   (rPlus1 andThen doubled).run(10) pipe println  // 22
+
+  lineEnd() pipe println
 }

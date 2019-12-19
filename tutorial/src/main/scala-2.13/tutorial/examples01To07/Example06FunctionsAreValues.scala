@@ -1,8 +1,11 @@
 package tutorial.examples01To07;
 
 import scala.util.chaining._
+import util._
 
-object Example06FunctionsAreValues extends util.App {
+object Example06FunctionsAreValues extends App {
+
+  lineStart() pipe println
 
   val plus1: Function1[Int, Int] = x => x + 1
   def plus2(x: Int): Int         = x + 2
@@ -59,4 +62,6 @@ object Example06FunctionsAreValues extends util.App {
   List(1, 2, 3) map { times2 _ } pipe println
   // implicit expansion just using the method name
   List(1, 2, 3) map times2 pipe println
+
+  lineEnd() pipe println
 }

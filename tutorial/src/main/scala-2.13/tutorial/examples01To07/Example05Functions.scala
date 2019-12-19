@@ -1,8 +1,11 @@
 package tutorial.examples01To07;
 
 import scala.util.chaining._
+import util._
 
-object Example05Functions extends util.App {
+object Example05Functions extends App {
+
+  lineStart() pipe println
 
   private def someComputation(): Int = {
     val result = {
@@ -93,4 +96,6 @@ object Example05Functions extends util.App {
   val plus40   = addCurried(40)
   val sum: Int = plus40(2) // 42
   sum pipe println
+
+  lineEnd() pipe println
 }

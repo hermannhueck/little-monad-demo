@@ -1,10 +1,13 @@
 package tutorial.examples01To07;
 
 import scala.util.chaining._
+import util._
 
 import tutorial.libMyCats._
 
-object Example04EitherMonad extends util.App {
+object Example04EitherMonad extends App {
+
+  lineStart() pipe println
 
   val e1 = Right(13).withLeft[String]
   val e2 = Right(21).withLeft[String]
@@ -44,4 +47,6 @@ object Example04EitherMonad extends util.App {
     } yield (val1, val2)
 
   result pipe println
+
+  lineEnd() pipe println
 }

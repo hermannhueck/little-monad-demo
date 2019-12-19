@@ -1,10 +1,13 @@
 package tutorial.examples09
 
 import scala.util.chaining._
+import util._
 
 import tutorial.libMyCats._
 
-object IOAppCompute extends util.App {
+object IOAppCompute extends App {
+
+  lineStart() pipe println
 
   val io1 = IO.pure(40)
   val io2 = IO pure 2
@@ -30,4 +33,6 @@ object IOAppCompute extends util.App {
     "lazy computing ... " pipe println
     41
   }
+
+  lineEnd() pipe println
 }

@@ -8,7 +8,12 @@ import scala.util.{Failure, Success}
 
 import tutorial.libMyCats._
 
-object Example02MyMonadImpl extends util.App {
+import scala.util.chaining._
+import util._
+
+object Example02MyMonadImpl extends App {
+
+  lineStart() pipe println
 
   println("----- List:")
 
@@ -64,4 +69,6 @@ object Example02MyMonadImpl extends util.App {
     )
 
   Thread sleep 500L
+
+  lineEnd() pipe println
 }

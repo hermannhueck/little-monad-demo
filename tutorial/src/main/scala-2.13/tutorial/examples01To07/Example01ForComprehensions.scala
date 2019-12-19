@@ -5,7 +5,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-object Example01ForComprehensions extends util.App {
+import scala.util.chaining._
+import util._
+
+object Example01ForComprehensions extends App {
+
+  lineStart() pipe println
 
   def compute(list1: List[Int], list2: List[Int]): List[(Int, Int)] =
     for {
@@ -53,4 +58,6 @@ object Example01ForComprehensions extends util.App {
   val fResult = compute(f1, f2)
   val res     = Await.result(fResult, 3.seconds)
   println(res)
+
+  lineEnd() pipe println
 }

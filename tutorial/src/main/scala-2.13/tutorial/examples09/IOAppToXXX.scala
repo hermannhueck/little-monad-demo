@@ -4,9 +4,13 @@ import tutorial.libMyCats._
 
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
-import scala.util.chaining._
 
-object IOAppToXXX extends util.App {
+import scala.util.chaining._
+import util._
+
+object IOAppToXXX extends App {
+
+  lineStart() pipe println
 
   val random = scala.util.Random
 
@@ -24,20 +28,17 @@ object IOAppToXXX extends util.App {
   // NOT referentially transparent
 
   def runHelloThrowingException(): Unit = {
-    io
-      .unsafeRun() // may throw an Exception
+    io.unsafeRun() // may throw an Exception
       .pipe(println)
   }
 
   def runHelloReturningTry(): Unit = {
-    io
-      .unsafeRunToTry()
+    io.unsafeRunToTry()
       .fold(t => println(t.getMessage), v => println(v))
   }
 
   def runHelloReturningEither(): Unit = {
-    io
-      .unsafeRunToEither()
+    io.unsafeRunToEither()
       .fold(t => println(t.getMessage), v => println(v))
   }
 
@@ -45,8 +46,7 @@ object IOAppToXXX extends util.App {
 
     implicit val ec: ExecutionContext = ExecutionContext.global
 
-    io
-      .unsafeRunToFuture
+    io.unsafeRunToFuture
       .onComplete {
         case Failure(exception) => println(exception.getMessage)
         case Success(value)     => println(value)
@@ -58,4 +58,6 @@ object IOAppToXXX extends util.App {
   runHelloReturningTry()
   runHelloReturningEither()
   runHelloReturningFuture()
+
+  lineEnd() pipe println
 }

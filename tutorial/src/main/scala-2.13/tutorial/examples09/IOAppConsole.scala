@@ -5,8 +5,11 @@ import tutorial.libMyCats._
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 import scala.util.chaining._
+import util._
 
-object IOAppConsole extends util.App {
+object IOAppConsole extends App {
+
+  lineStart() pipe println
 
   val random = scala.util.Random
 
@@ -63,4 +66,6 @@ object IOAppConsole extends util.App {
   // runHelloReturningTry()
   runHelloReturningEither()
   // runHelloReturningFuture() // a termional program is not well suited to be run asynchronously.
+
+  lineEnd() pipe println
 }

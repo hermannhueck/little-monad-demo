@@ -1,6 +1,11 @@
 package tutorial.examples09
 
-object HelloWithFunction0 extends util.App {
+import scala.util.chaining._
+import util._
+
+object HelloWithFunction0 extends App {
+
+  lineStart() pipe println
 
   val promptForName: () => Unit =
     () => print("Whats your name?  ")
@@ -17,4 +22,6 @@ object HelloWithFunction0 extends util.App {
   val printHelloWithName: () => Unit =
     printHello(name)
   printHelloWithName()
+
+  lineEnd() pipe println
 }

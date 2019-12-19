@@ -1,6 +1,7 @@
 package tutorial.examples08
 
 import scala.util.chaining._
+import util._
 
 import tutorial.libMyCats._
 
@@ -9,7 +10,9 @@ import tutorial.libMyCats._
 // import cats.data._
 // import cats.implicits._
 
-object DbReaderApp extends util.App {
+object DbReaderApp extends App {
+
+  lineStart() pipe println
 
   val db: Database = Database.get
 
@@ -39,4 +42,6 @@ object DbReaderApp extends util.App {
   checkLogin("kate", "acidburn").run(db) pipe println
   checkLogin("katy", "acidburn").run(db) pipe println
   checkLogin("margo", "secrets").run(db) pipe println
+
+  lineEnd() pipe println
 }

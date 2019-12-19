@@ -41,6 +41,8 @@ we execute the program. This can be a final one-liner.
 ```scala
 object HelloWithFunction0 extends App {
 
+  lineStart() pipe println
+
   val promptForName: () => Unit =
     () => print("Whats your name?  ")
 
@@ -136,6 +138,8 @@ The impure invocation of the program becomes a one-liner.
 ```scala
 object IOAppHello extends App {
 
+  lineStart() pipe println
+
   val hello: IO[Unit] = for {
     _    <- IO(() => print("What's your name?  "))
     name <- IO(() => scala.io.StdIn.readLine())
@@ -152,6 +156,8 @@ is supposed to work with any Monad.
 
 ```scala
 object IOAppCompute extends App {
+
+  lineStart() pipe println
 
   val io1 = IO.pure(40)
   val io2 = IO.pure(2)

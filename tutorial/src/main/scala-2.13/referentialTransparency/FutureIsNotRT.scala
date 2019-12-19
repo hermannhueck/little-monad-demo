@@ -5,11 +5,16 @@ import java.util.concurrent.atomic.AtomicInteger
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+import scala.util.chaining._
+import util._
+
 /*
   see blogpost:
   https://www.reddit.com/r/scala/comments/3zofjl/why_is_future_totally_unusable/
  */
-object FutureIsNotRT extends util.App {
+object FutureIsNotRT extends App {
+
+  lineStart() pipe println
 
   val future1: Future[(Int, Int)] = {
     val atomicInt           = new AtomicInteger(0)
@@ -36,4 +41,6 @@ object FutureIsNotRT extends util.App {
   Thread.sleep(200L)
   println("-----")
   println("The results are not equal. --> Future IS NOT referentially transparent.")
+
+  lineEnd() pipe println
 }

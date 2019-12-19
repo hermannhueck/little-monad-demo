@@ -1,10 +1,13 @@
 package tutorial.examples01To07;
 
 import scala.util.chaining._
+import util._
 
 import tutorial.libMyCats._
 
-object Example07Function1Monad extends util.App {
+object Example07Function1Monad extends App {
+
+  lineStart() pipe println
 
   val plus1: Int => Int  = (x => x + 1)
   val times2: Int => Int = (x => x * 2)
@@ -20,4 +23,6 @@ object Example07Function1Monad extends util.App {
 
   val fn2: Int => (Int, Int) = compute(plus1, times2)
   fn2(10) pipe println // (11, 20)
+
+  lineEnd() pipe println
 }

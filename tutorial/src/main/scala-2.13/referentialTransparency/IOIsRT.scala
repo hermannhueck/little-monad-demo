@@ -6,11 +6,16 @@ import cats.effect.IO
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.util.chaining._
+import util._
+
 /*
   see blogpost:
   https://www.reddit.com/r/scala/comments/3zofjl/why_is_future_totally_unusable/
  */
-object IOIsRT extends util.App {
+object IOIsRT extends App {
+
+  lineStart() pipe println
 
   val io1: IO[(Int, Int)] = {
     val atomicInt   = new AtomicInteger(0)
@@ -37,4 +42,6 @@ object IOIsRT extends util.App {
   Thread.sleep(200L)
   println("-----")
   println("The results are equal. --> IO IS referentially transparent.")
+
+  lineEnd() pipe println
 }

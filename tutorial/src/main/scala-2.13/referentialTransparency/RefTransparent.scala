@@ -2,10 +2,15 @@ package referentialTransparency
 
 import cats.effect.IO
 
+import scala.util.chaining._
+import util._
+
 /*
   see: https://typelevel.org/blog/2017/05/02/io-monad-for-cats.html
  */
-object RefTransparent extends util.App {
+object RefTransparent extends App {
+
+  lineStart() pipe println
 
   def putStrLn(line: String): IO[Unit] =
     IO { println(line) }
@@ -29,4 +34,5 @@ object RefTransparent extends util.App {
 
   // 'func' IS referentially transparent!
 
+  lineEnd() pipe println
 }

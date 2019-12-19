@@ -2,7 +2,12 @@ package tutorial.examples09
 
 import tutorial.libMyCats._
 
-object IOAppHelloWithEval extends util.App {
+import scala.util.chaining._
+import util._
+
+object IOAppHelloWithEval extends App {
+
+  lineStart() pipe println
 
   // referentially transparent description of the program
 
@@ -16,4 +21,6 @@ object IOAppHelloWithEval extends util.App {
   // is NOT referentially transparent
 
   hello.unsafeRun()
+
+  lineEnd() pipe println
 }

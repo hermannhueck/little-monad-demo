@@ -1,8 +1,17 @@
-package tutorial.libCompute
+package tutorial
 
-import tutorial.libMyCats._
+package object libMyCats {
 
-object WithMyCats {
+  type Id[A] = A
+
+  implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
+
+    def flatMap[B](f: A => F[B]): F[B] =
+      Monad[F].flatMap(fa)(f)
+
+    def map[B](f: A => B): F[B] =
+      Monad[F].map(fa)(f)
+  }
 
   def compute(i1: Int, i2: Int): (Int, Int) =
     compute(i1: Id[Int], i2: Id[Int])

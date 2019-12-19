@@ -1,15 +1,8 @@
-package tutorial.ch08ReaderMonad
+package tutorial.examples08
 
 import scala.util.chaining._
 
 import tutorial.libMyCats._
-import tutorial.libCompute.WithMyCats._
-
-// uncomment for use with Cats instead of libMyCats
-// import cats._
-// import cats.data._
-// import cats.implicits._
-// import tutorial.libCompute.LibComputeWithCats._
 
 object Example08 extends util.App {
 

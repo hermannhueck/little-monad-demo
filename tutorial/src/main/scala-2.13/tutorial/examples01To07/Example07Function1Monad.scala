@@ -1,17 +1,10 @@
-package tutorial.ch07Function1Monad
+package tutorial.examples01To07;
 
 import scala.util.chaining._
 
 import tutorial.libMyCats._
-import tutorial.libCompute.WithMyCats._
 
-// uncomment for use with Cats instead of libMyCats
-// import cats._
-// import cats.data._
-// import cats.implicits._
-// import tutorial.libCompute.WithCats._
-
-object Example07 extends util.App {
+object Example07Function1Monad extends util.App {
 
   val plus1: Int => Int  = (x => x + 1)
   val times2: Int => Int = (x => x * 2)

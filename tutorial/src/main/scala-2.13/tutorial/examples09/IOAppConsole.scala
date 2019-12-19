@@ -1,16 +1,12 @@
-package tutorial.ch09IOMonad
+package tutorial.examples09
 
+import tutorial.libMyCats._
+
+import scala.concurrent.ExecutionContext
+import scala.util.{Failure, Success}
 import scala.util.chaining._
 
-import tutorial.libCompute.WithMyCats._
-import tutorial.libMyCats._
-import scala.util.Try
-import scala.concurrent.ExecutionContext
-import scala.util.Failure
-import scala.util.Success
-import scala.concurrent.Future
-
-object IOAppToXXX extends util.App {
+object IOAppConsole extends util.App {
 
   val random = scala.util.Random
 
@@ -20,36 +16,41 @@ object IOAppToXXX extends util.App {
     else
       throw new RuntimeException("RuntimeException: bla bla")
 
-  val io = IO { () =>
-    somePossiblyFailingComputation(42)
-  }
+  // description of the program
+  // referentially transparent
+  val hello: IO[String] = for {
+    _    <- IO.eval("What's your name?  " pipe print)
+    name <- IO.eval(scala.io.StdIn.readLine())
+    _    <- IO.eval { s"Hello $name!\n" pipe println }
+    tryy <- IO.eval { somePossiblyFailingComputation(name) }
+  } yield tryy
 
   // interpretation / execution of the program
   // NOT referentially transparent
 
   def runHelloThrowingException(): Unit = {
-    io
+    hello
       .unsafeRun() // may throw an Exception
       .pipe(println)
   }
 
   def runHelloReturningTry(): Unit = {
-    io
+    hello
       .unsafeRunToTry()
-      .fold(t => println(t.getMessage), v => println(v))
+      .fold(t => println(t.getMessage), name => println(name))
   }
 
   def runHelloReturningEither(): Unit = {
-    io
+    hello
       .unsafeRunToEither()
-      .fold(t => println(t.getMessage), v => println(v))
+      .fold(t => println(t.getMessage), name => println(name))
   }
 
   def runHelloReturningFuture(): Unit = {
 
     implicit val ec: ExecutionContext = ExecutionContext.global
 
-    io
+    hello
       .unsafeRunToFuture
       .onComplete {
         case Failure(exception) => println(exception.getMessage)
@@ -59,7 +60,7 @@ object IOAppToXXX extends util.App {
   }
 
   // runHelloThrowingException()
-  runHelloReturningTry()
+  // runHelloReturningTry()
   runHelloReturningEither()
-  runHelloReturningFuture()
+  // runHelloReturningFuture() // a termional program is not well suited to be run asynchronously.
 }

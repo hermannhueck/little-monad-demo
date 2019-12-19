@@ -1,4 +1,4 @@
-package tutorial.ch09IOMonad
+package tutorial.examples09
 
 object HelloWithFunction0 extends util.App {
 

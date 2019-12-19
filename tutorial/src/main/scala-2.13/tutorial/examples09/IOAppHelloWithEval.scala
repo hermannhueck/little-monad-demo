@@ -1,15 +1,15 @@
-package tutorial.ch09IOMonad
+package tutorial.examples09
 
 import tutorial.libMyCats._
 
-object IOAppHello extends util.App {
+object IOAppHelloWithEval extends util.App {
 
   // referentially transparent description of the program
 
   val hello: IO[Unit] = for {
-    _    <- IO(() => print("What's your name?  "))
-    name <- IO(() => scala.io.StdIn.readLine())
-    _    <- IO(() => println(s"Hello $name!\n"))
+    _    <- IO.eval(print("What's your name?  "))
+    name <- IO.eval(scala.io.StdIn.readLine())
+    _    <- IO.eval(println(s"Hello $name!\n"))
   } yield ()
 
   // interpretation / execution of the program

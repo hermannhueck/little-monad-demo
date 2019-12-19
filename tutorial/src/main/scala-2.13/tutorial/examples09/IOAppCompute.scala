@@ -1,8 +1,7 @@
-package tutorial.ch09IOMonad
+package tutorial.examples09
 
 import scala.util.chaining._
 
-import tutorial.libCompute.WithMyCats._
 import tutorial.libMyCats._
 
 object IOAppCompute extends util.App {

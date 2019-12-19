@@ -1,4 +1,4 @@
-package tutorial.ch08ReaderMonad
+package tutorial.examples08
 
 import scala.util.chaining._
 

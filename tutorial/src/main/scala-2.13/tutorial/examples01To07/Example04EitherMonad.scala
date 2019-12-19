@@ -1,10 +1,10 @@
-package tutorial.ch04EitherMonad
+package tutorial.examples01To07;
 
 import scala.util.chaining._
 
-import tutorial.libCompute.WithMyCats._
+import tutorial.libMyCats._
 
-object Example04 extends util.App {
+object Example04EitherMonad extends util.App {
 
   val e1 = Right(13).withLeft[String]
   val e2 = Right(21).withLeft[String]

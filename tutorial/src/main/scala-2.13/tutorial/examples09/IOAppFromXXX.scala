@@ -1,16 +1,10 @@
-package tutorial.ch09IOMonad
+package tutorial.examples09
 
-import scala.util.chaining._
-
-import tutorial.libCompute.WithMyCats._
 import tutorial.libMyCats._
+
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
-import scala.concurrent.ExecutionContext
-import scala.util.Failure
-import scala.util.Success
-import scala.concurrent.Future
-import scala.concurrent.Await
-import scala.concurrent.duration.Duration
+import scala.util.chaining._
 
 object IOAppFromXXX extends util.App {
 

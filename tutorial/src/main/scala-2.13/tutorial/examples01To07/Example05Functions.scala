@@ -1,8 +1,8 @@
-package tutorial.ch05Functions
+package tutorial.examples01To07;
 
 import scala.util.chaining._
 
-object Example05 extends util.App {
+object Example05Functions extends util.App {
 
   private def someComputation(): Int = {
     val result = {

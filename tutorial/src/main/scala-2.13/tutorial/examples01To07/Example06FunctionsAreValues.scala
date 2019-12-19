@@ -1,8 +1,8 @@
-package tutorial.ch06FunctionsAreValues
+package tutorial.examples01To07;
 
 import scala.util.chaining._
 
-object Example06 extends util.App {
+object Example06FunctionsAreValues extends util.App {
 
   val plus1: Function1[Int, Int] = x => x + 1
   def plus2(x: Int): Int         = x + 2

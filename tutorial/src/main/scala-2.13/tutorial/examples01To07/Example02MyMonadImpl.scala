@@ -1,4 +1,4 @@
-package tutorial.ch02MyMonadImpl
+package tutorial.examples01To07;
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
@@ -6,10 +6,9 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
-import tutorial.libCompute.WithMyCats._
-// import cats.implicits._
+import tutorial.libMyCats._
 
-object Example02 extends util.App {
+object Example02MyMonadImpl extends util.App {
 
   println("----- List:")
 

@@ -30,10 +30,10 @@ final case class Reader[P, A](run: P => A) {
 object Reader {
 
   given [P]: Monad[[R] =>> Reader[P, R]]
-    override def pure[A](a: A): Reader[P, A] = Reader.pure(a)
+    override def pure[A](a: A): Reader[P, A] = Reader pure a
     override def [A, B](fa: Reader[P, A]) flatMap (f: A => Reader[P, B]): Reader[P, B] =
       fa flatMap f
 
-  def pure[P, A](a: A): Reader[P, A] =
+  @infix def pure[P, A](a: A): Reader[P, A] =
     Reader(_ => a)
 }

@@ -6,7 +6,7 @@ import util._
 
 import tutorial.libMyCats._
 
-@main def Example08ReaderMonad: Unit = {
+@main def Example08aReaderMonad: Unit = {
 
   lineStart() pipe println
 

@@ -1,4 +1,4 @@
-package tutorial.examples
+package tutorial.examples01To07
 
 import scala.util.chaining._
 import util._

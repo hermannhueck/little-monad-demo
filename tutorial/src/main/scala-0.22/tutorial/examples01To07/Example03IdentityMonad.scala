@@ -1,4 +1,4 @@
-package tutorial.examples
+package tutorial.examples01To07
 
 import tutorial.libMyCats._
 

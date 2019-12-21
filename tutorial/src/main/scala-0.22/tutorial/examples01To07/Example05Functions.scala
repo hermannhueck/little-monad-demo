@@ -107,6 +107,7 @@ import scala.language.implicitConversions
   println
 
   // Currying Function4
+  
   def add4(x1: Int, x2: Int, x3: Int, x4: Int): Int =
     x1 + x2 + x3 + x4
 

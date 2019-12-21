@@ -85,17 +85,42 @@ object Example05Functions extends App {
 
   val add: Function2[Int, Int, Int] = _ + _
 
-  val addTupled: ((Int, Int)) => Int = add.tupled
+  val addTupled: Function1[(Int, Int), Int] = add.tupled
 
   val pair: (Int, Int)  = (21, 21)
   val sumFromTuple: Int = addTupled(pair) // 42
   sumFromTuple pipe println
 
-  val addCurried: Int => Int => Int = add.curried
+  val addCurried: Int => (Int => Int) = add.curried
 
-  val plus40   = addCurried(40)
-  val sum: Int = plus40(2) // 42
-  sum pipe println
+  val plus40    = addCurried(40)
+  val sum1: Int = plus40(2) // 42
+  sum1 pipe println
+
+  val sum2: Int = plus40(3) // 43
+  sum2 pipe println
+
+  val sum3 = addCurried(40)(2)
+  sum3 pipe println
+
+  println
+
+  // Currying Function4
+  
+  def add4(x1: Int, x2: Int, x3: Int, x4: Int): Int =
+    x1 + x2 + x3 + x4
+
+  val fAdd4: Function4[Int, Int, Int, Int, Int] = add4
+  val fAdd4b: (Int, Int, Int, Int) => Int = add4
+  val add4Curried: Int => Int => Int => Int => Int = fAdd4.curried
+  val plus2: Int => Int => Int => Int = add4Curried(2)
+  val plus4: Int => Int => Int = plus2(2)
+  val plus6: Int => Int = plus4(2)
+  val result: Int = plus6(2)
+  result pipe println
+
+  val sum4a = add4Curried(2)(2)(2)(2)
+  sum4a pipe println
 
   lineEnd() pipe println
 }

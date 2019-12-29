@@ -46,4 +46,12 @@ object ScalacOptions {
     "-Yexplicit-nulls", // make reference types non-nullable. Nullable types can be expressed with unions: e.g. String|Null.
     // "-Yno-kind-polymorphism", // disable kind polymorphism (see https://dotty.epfl.ch/docs/reference/kind-polymorphism.html). Potentially unsound.
   )
+
+  def scalacOptionsFor(scalaVersion: String): Seq[String] = {
+    println(s"\n>>>>>          compiling for Scala $scalaVersion\n")
+    if (scalaVersion.startsWith("0."))
+      defaultDotcOptions
+    else
+      defaultScalacOptions
+  }
 }

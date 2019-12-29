@@ -16,19 +16,20 @@ object IOAppConsole extends App {
   val random = scala.util.Random
 
   def somePossiblyFailingComputation[A](value: A): A =
-    if (random.nextBoolean)
+    if random.nextBoolean
       value
     else
       throw new RuntimeException("RuntimeException: bla bla")
 
   // description of the program
   // referentially transparent
-  val hello: IO[String] = for {
-    _     <- IO.eval("What's your name?  " pipe print)
-    name  <- IO.eval(scala.io.StdIn.readLine())
-    _     <- IO.eval { s"Hello $name!\n" pipe println }
-    name2 <- IO.eval { somePossiblyFailingComputation(name) }
-  } yield name2
+  val hello: IO[String] =
+    for
+      _     <- IO.eval("What's your name?  " pipe print)
+      name  <- IO.eval(scala.io.StdIn.readLine())
+      _     <- IO.eval { s"Hello $name!\n" pipe println }
+      name2 <- IO.eval { somePossiblyFailingComputation(name) }
+    yield name2
 
   // interpretation / execution of the program
   // NOT referentially transparent

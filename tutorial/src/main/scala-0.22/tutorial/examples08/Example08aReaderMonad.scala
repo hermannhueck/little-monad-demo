@@ -18,10 +18,11 @@ import tutorial.libMyCats._
   // Reader as Monad
 
   // description
-  val rResult: Reader[Int, (Int, Int)] = for {
-    i1 <- rPlus1
-    i2 <- rDoubled
-  } yield (i1, i2)
+  val rResult: Reader[Int, (Int, Int)] =
+    for
+      i1 <- rPlus1
+      i2 <- rDoubled
+    yield (i1, i2)
 
   // interpretation / execution
   rResult.run(10) pipe println // (11, 20)

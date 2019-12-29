@@ -13,10 +13,11 @@ import tutorial.libMyCats._
   val io1 = IO.pure(40)
   val io2 = IO pure 2
 
-  val io3: IO[(Int, Int)] = for {
-    i1 <- io1
-    i2 <- io2
-  } yield (i1, i2)
+  val io3: IO[(Int, Int)] =
+    for
+      i1 <- io1
+      i2 <- io2
+    yield (i1, i2)
   io3.unsafeRun() pipe println
 
   val ioCompute: IO[(Int, Int)] = compute(io1, io2)

@@ -17,7 +17,7 @@ object IOAppFromXXX extends App {
   val random = scala.util.Random
 
   def somePossiblyFailingComputation[A](value: A): A =
-    if (random.nextBoolean)
+    if random.nextBoolean
       value
     else
       throw new RuntimeException("RuntimeException: bla bla")

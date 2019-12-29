@@ -24,13 +24,12 @@ def dependenciesFor(deps: Seq[ModuleID], scalaVersion: String): Seq[ModuleID] = 
   }
 }
 
-def scalacOptionsFor(scalacOptions: Seq[String], scalaVersion: String): Seq[String] = {
+def scalacOptionsFor(scalaVersion: String): Seq[String] = {
   println(s"\n>>>>>          compiling for Scala $scalaVersion\n")
   if (scalaVersion.startsWith("0."))
-    scalacOptions ++
-      Seq("-strict", "-Ykind-projector", "-Yexplicit-nulls", "-deprecation")
+    defaultDotcOptions
   else
-    scalacOptions ++ defaultScalacOptions
+    defaultScalacOptions
 }
 
 inThisBuild(
@@ -62,6 +61,6 @@ lazy val tutorial = (project in file("tutorial"))
   .settings(
     name := "tutorial",
     description := projectDescription,
+    scalacOptions ++= scalacOptionsFor(scalaVersion.value),
     libraryDependencies := dependenciesFor(libraryDependencies.value, scalaVersion.value),
-    scalacOptions := scalacOptionsFor(scalacOptions.value, scalaVersion.value)
   )

@@ -37,10 +37,10 @@ import tutorial.libMyCats._
   val either2: Either[String, Int] = Right(42).withLeft[String]
 
   val result: Either[String, (Int, Int)] =
-    for {
+    for
       val1 <- either1
       val2 <- either2
-    } yield (val1, val2)
+    yield (val1, val2)
 
   result pipe println
 

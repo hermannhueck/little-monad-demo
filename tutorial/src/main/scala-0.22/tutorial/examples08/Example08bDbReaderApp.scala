@@ -29,11 +29,11 @@ import tutorial.libMyCats._
     }
 
   def checkLogin(username: String, password: String): Reader[Database, Boolean] =
-    for {
+    for
       optId     <- getUserId(username)
       id        <- Reader.pure(optId.getOrElse(-1))
       pwCorrect <- checkUserPassword(id, password)
-    } yield pwCorrect
+    yield pwCorrect
 
   checkLogin("kate", "acidburn").run(db) pipe println
   checkLogin("katy", "acidburn").run(db) pipe println

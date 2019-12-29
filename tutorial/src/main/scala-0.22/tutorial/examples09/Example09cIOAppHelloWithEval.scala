@@ -12,11 +12,12 @@ import util._
 
   // referentially transparent description of the program
 
-  val helloDesc: IO[Unit] = for {
-    _    <- IO.eval(print("What's your name?  "))
-    name <- IO.eval(scala.io.StdIn.readLine())
-    _    <- IO.eval(println(s"Hello $name!\n"))
-  } yield ()
+  val helloDesc: IO[Unit] =
+    for
+      _    <- IO.eval(print("What's your name?  "))
+      name <- IO.eval(scala.io.StdIn.readLine())
+      _    <- IO.eval(println(s"Hello $name!\n"))
+    yield ()
 
   // interpretation / execution of the program
   // is NOT referentially transparent

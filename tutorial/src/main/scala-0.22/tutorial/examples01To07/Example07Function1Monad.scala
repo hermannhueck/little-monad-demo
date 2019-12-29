@@ -15,10 +15,11 @@ import tutorial.libMyCats.Monad.given
   val plus1: Int => Int  = (x => x + 1)
   val times2: Int => Int = (x => x * 2)
 
-  val fn1: Function1[Int, (Int, Int)] = for {
-    i1 <- plus1
-    i2 <- times2
-  } yield (i1, i2)
+  val fn1: Function1[Int, (Int, Int)] =
+    for
+      i1 <- plus1
+      i2 <- times2
+    yield (i1, i2)
 
   fn1(10) pipe println
 

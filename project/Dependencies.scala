@@ -28,6 +28,9 @@ object Dependencies {
       // Scala 2.x dependencies
       commonDependencies ++
       javaDependencies ++
-      Seq( compilerPlugin("org.typelevel" % "kind-projector" % kindProjectorVersion cross CrossVersion.full) )
+      Seq(
+        compilerPlugin("org.typelevel" % "kind-projector"      % "0.11.0" cross CrossVersion.full),
+        compilerPlugin("com.olegpy"    %% "better-monadic-for" % "0.3.1")
+      )
     }
 }

@@ -1,6 +1,5 @@
 package tutorial.libMyCats
 
-import tutorial.libMyCats._
 import scala.util.Try
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext

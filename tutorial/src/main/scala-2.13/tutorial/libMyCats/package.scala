@@ -4,12 +4,22 @@ package object libMyCats {
 
   type Id[A] = A
 
-  implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
+  implicit final class SemigroupSyntax[A](private val lhs: A) extends AnyVal {
+    @inline def combine(rhs: A)(implicit sg: Semigroup[A]): A =
+      Semigroup[A].combine(lhs, rhs)
+  }
+    
+  implicit final class MonoidSyntax[A](private val as: Seq[A]) extends AnyVal {
+    @inline def combineAll(implicit m: Monoid[A]): A =
+      Monoid[A].combineAll(as)
+  }
 
-    def flatMap[B](f: A => F[B]): F[B] =
+  implicit final class MonadSyntax[F[_]: Monad, A](private val fa: F[A]) {
+
+    @inline def flatMap[B](f: A => F[B]): F[B] =
       Monad[F].flatMap(fa)(f)
 
-    def map[B](f: A => B): F[B] =
+    @inline def map[B](f: A => B): F[B] =
       Monad[F].map(fa)(f)
   }
 

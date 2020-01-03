@@ -34,5 +34,8 @@ package object util {
 
     def blue: String =
       what.colored(Console.BLUE)
+
+    def reset: String =
+      what.colored(Console.RESET)
   }
 }

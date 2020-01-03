@@ -1,4 +1,4 @@
-package tutorial.libMyCatsUntilExample09
+package tutorial.libMyCatsForExamples01To09
 
 def compute[A, B, F[_]: Monad](fa: F[A], fb: F[B]): F[(A, B)] =
   for

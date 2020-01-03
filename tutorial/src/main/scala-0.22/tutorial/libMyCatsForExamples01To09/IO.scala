@@ -1,4 +1,4 @@
-package tutorial.libMyCatsUntilExample09
+package tutorial.libMyCatsForExamples01To09
 
 import tutorial.libMyCats._
 import scala.util.Try

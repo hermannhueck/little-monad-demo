@@ -15,8 +15,7 @@ inThisBuild(
     description := projectDescription,
     version := projectVersion,
     scalaVersion := dottyVersion,
-    // To cross compile with Dotty and Scala 2
-    crossScalaVersions := Seq(dottyVersion, scala2xVersion),
+    crossScalaVersions := Seq(dottyVersion, scala2xVersion), // cross compile with Dotty and Scala 2
     publish / skip := true,
     initialCommands :=
       s"""|
@@ -40,4 +39,18 @@ lazy val tutorial = (project in file("tutorial"))
     description := projectDescription,
     scalacOptions ++= scalacOptionsFor(scalaVersion.value),
     libraryDependencies ++= dependenciesFor(scalaVersion.value),
+  )
+
+lazy val docs = project // new documentation project
+  .in(file("tutorial-docs")) // important: it must not be docs/
+  .dependsOn(tutorial)
+  .enablePlugins(MdocPlugin)
+  .settings(
+    scalaVersion := scala2xVersion,
+    crossScalaVersions := Seq.empty[String],
+    mdocIn := file("tutorial-docs/src"),
+    mdocOut := file("tutorial/src/main/scala-2.13/tutorial/docs"),
+    mdocVariables := Map(
+      "VERSION" -> version.value
+    )
   )

@@ -23,19 +23,25 @@ package object libMyCats {
       Monad[F].map(fa)(f)
   }
 
-  def compute(i1: Int, i2: Int): (Int, Int) =
-    compute(i1: Id[Int], i2: Id[Int])
+  def compute[A, B](a: A, b: B): (A, B) =
+    compute(a: Id[A], b: Id[B])
 
-  def compute[F[_]: Monad](fInt1: F[Int], fInt2: F[Int]): F[(Int, Int)] =
+  def compute[F[_]: Monad, A, B](fa: F[A], fb: F[B]): F[(A, B)] =
+    for {
+      a <- fa
+      b <- fb
+    } yield (a, b)
+
+  def compute2[F[_], A, B](fa: F[A], fb: F[B])(implicit m: Monad[F]): F[(A, B)] =
+    fa.flatMap { a =>
+      fb.map { b =>
+        (a, b)
+      }
+    }
+
+  def computeInts[F[_]: Monad](fInt1: F[Int], fInt2: F[Int]): F[(Int, Int)] =
     for {
       i1 <- fInt1
       i2 <- fInt2
     } yield (i1, i2)
-
-  def compute2[F[_]: Monad](fInt1: F[Int], fInt2: F[Int]): F[(Int, Int)] =
-    fInt1.flatMap { i1 =>
-      fInt2.map { i2 =>
-        (i1, i2)
-      }
-    }
 }

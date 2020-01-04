@@ -1,25 +1,26 @@
 package tutorial.examples10
 
 import scala.util.chaining._
+import scala.language.implicitConversions
 import util._
 
 import tutorial.libMyCats._
 
-object Example10MonoidDemo extends App {
+// Joiner[Int] in local scope overrides Joiner[Int] in implicit scope (companion object)
+val intProductMonoid: Monoid[Int] = new Monoid[Int] {
+  override def empty: Int = 1
+  override def combine(lhs: Int, rhs: Int): Int =
+    lhs * rhs
+}
 
-  // Joiner[Int] in local scope overrides Joiner[Int] in implicit scope (companion object)
-  val intProductMonoid: Monoid[Int] = new Monoid[Int] {
-    override def empty: Int = 1
-    override def combine(lhs: Int, rhs: Int): Int =
-      lhs * rhs
-  }
+@main def Example10MonoidDemo: Unit = {
 
   line().green pipe println
 
   s"${line(10)} Semigroup[Int] ${line(40)}".green pipe println
 
   s"2 combine 3 = ${2 combine 3}" pipe println
-  s"2 combine 3 = ${2.combine(3)(intProductMonoid)}" pipe println
+  s"2 combine 3 = ${2.combine(3)(given intProductMonoid)}" pipe println
 
   s"${line(10)} Semigroup[List[Int]] ${line(40)}".green pipe println
 
@@ -32,7 +33,7 @@ object Example10MonoidDemo extends App {
   s"${line(10)} Monoid[Int] ${line(40)}".green pipe println
 
   val sumOfInts = liJoined.combineAll
-  val productOfInts = liJoined.combineAll(intProductMonoid)
+  val productOfInts = liJoined.combineAll(given intProductMonoid)
   s"all ints joined to a sum: $sumOfInts" pipe println
   s"all ints joined to a product: $productOfInts" pipe println
 
@@ -50,7 +51,7 @@ object Example10MonoidDemo extends App {
   s"false combine false = ${false combine false}" pipe println
 
   s"${line(10)} Semigroup[Option[A]] ${line(40)}".green pipe println
-
+  
   val optI1 = Option(15)
   val optI2 = Option(27)
   val none = Option.empty[Int]
@@ -72,11 +73,14 @@ object Example10MonoidDemo extends App {
   val mapSI2 = Map[String, Int]("y" -> 2, "z" -> 12)
   val mapsJoined = mapSI1 combine mapSI2
   s"$mapSI1 combine $mapSI2 = $mapsJoined" pipe println
-
-  s"${line(10)} Monoid[Map[K, V]] ${line(40)}".green pipe println
   
+  s"${line(10)} Monoid[Map[K, V]] ${line(40)}".green pipe println
+
   val mapSI3 = Map[String, Int]("w" -> 3, "z" -> 20)
-  val allMapsJoined = List(mapSI1, mapSI2, mapSI3).combineAll
+  val allMapsJoined =
+    List(mapSI1, mapSI2, mapSI3)
+    .combineAll
+    .ensuring { resultMap => resultMap("z") == 42 }
   s"all maps joined: $allMapsJoined" pipe println
 
   val mapIS1 = Map(1 -> "Monoids", 3 -> "really", 4 -> "awesome")

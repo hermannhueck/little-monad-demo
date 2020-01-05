@@ -15,10 +15,8 @@ package object libMyCats {
   }
 
   implicit final class MonadSyntax[F[_]: Monad, A](private val fa: F[A]) {
-
     @inline def flatMap[B](f: A => F[B]): F[B] =
       Monad[F].flatMap(fa)(f)
-
     @inline def map[B](f: A => B): F[B] =
       Monad[F].map(fa)(f)
   }

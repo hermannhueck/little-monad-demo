@@ -10,12 +10,7 @@ trait Monad[F[_]] {
   def pure[A](a: A): F[A]
   def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
 
-  // other concrete methods implemented in terms
-  // of flatMap and pure
-
-  // Haskell operator for flatMap
-  def >>=[A, B](fa: F[A])(f: A => F[B]): F[B] =
-    this.flatMap(fa)(f)
+  // other concrete methods implemented in terms of flatMap and pure
 
   final def map[A, B](fa: F[A])(f: A => B): F[B] =
     flatMap(fa)(a => pure(f(a)))
@@ -26,9 +21,7 @@ trait Monad[F[_]] {
 
 object Monad {
 
-  // summoner
-  def apply[F[_]: Monad]: Monad[F] = implicitly[Monad[F]]
-  // def apply[F[_]](implicit m: Monad[F]): Monad[F] = m
+  def apply[F[_]: Monad]: Monad[F] = implicitly[Monad[F]] // summoner
 
   implicit val listMonad: Monad[List] = new Monad[List] {
 

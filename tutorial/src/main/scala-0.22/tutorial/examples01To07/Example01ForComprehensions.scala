@@ -44,7 +44,7 @@ def compute(option1: Option[Int], option2: Option[Int]): Option[(Int, Int)] =
   println("----- List:")
 
   val l1 = List(1, 2, 3)
-  val l2 = List(1, 20, 30, 40)
+  val l2 = List(10, 20, 30, 40)
 
   val lResult = compute(l1, l2)
   val lResult2 = compute2(l1, l2)

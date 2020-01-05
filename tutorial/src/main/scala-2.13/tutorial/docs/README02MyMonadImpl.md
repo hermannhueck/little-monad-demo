@@ -153,10 +153,10 @@ type in case we provide a Monad instance for that type,
 which we will do in subsequent chapters.
 
 ```scala
-def compute2[F[_]](fInt1: F[Int], fInt2: F[Int])(implicit m: Monad[F]): F[(Int, Int)] =
-  fInt1.flatMap { i1 =>
-    fInt2.map { i2 =>
-      (i1, i2)
+def compute2[F[_], A, B](fa: F[A], fb: F[B])(implicit m: Monad[F]): F[(A, B)] =
+  fa.flatMap { a =>
+    fb.map { b =>
+      (a, b)
     }
   }
 ```
@@ -165,5 +165,3 @@ _compute2_ shows the desugared version of _compute_. The
 for-comprehension is desugared by the compiler to a sequence
 of _flatMap_'s followed by _map_. The context bound in the
 signature is desugared to an implicit parameter.
-
-_

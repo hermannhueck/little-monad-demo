@@ -93,6 +93,7 @@ lifts a value into a _Right_ and _flatMap_ just
 delegates to the _flatMap_ implementation of _Either_:
 
 ```scala mdoc:invisible
+// mdoc:invisible
 trait Monad[F[_]] {
 
   def pure[A](a: A): F[A]
@@ -103,6 +104,7 @@ trait Monad[F[_]] {
   final def flatten[A](fa: F[F[A]]): F[A] =
     flatMap(fa)(identity)
 }
+// mdoc:invisible
 ```
 
 ```scala mdoc
@@ -128,6 +130,7 @@ Now we can pass instances of _Either[Int]_ to our generic
 _compute_ method as we do in _Example04_.
 
 ```scala mdoc:invisible
+// mdoc:invisible
 implicit final class MonadSyntax[F[_]: Monad, A](private val fa: F[A]) {
   @inline def flatMap[B](f: A => F[B]): F[B] =
     Monad[F].flatMap(fa)(f)
@@ -140,6 +143,7 @@ def compute[F[_]: Monad, A, B](fa: F[A], fb: F[B]): F[(A, B)] =
     a <- fa
     b <- fb
   } yield (a, b)
+// mdoc:invisible
 ```
 
 ```scala mdoc

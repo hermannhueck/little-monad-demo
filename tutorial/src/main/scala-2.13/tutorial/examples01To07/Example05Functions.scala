@@ -110,9 +110,9 @@ object Example05Functions extends App {
   def add4(x1: Int, x2: Int, x3: Int, x4: Int): Int =
     x1 + x2 + x3 + x4
 
-  val fAdd4: Function4[Int, Int, Int, Int, Int] = add4
+  val fAdd4a: Function4[Int, Int, Int, Int, Int] = add4
   val fAdd4b: (Int, Int, Int, Int) => Int = add4
-  val add4Curried: Int => Int => Int => Int => Int = fAdd4.curried
+  val add4Curried: Int => Int => Int => Int => Int = fAdd4a.curried
   val plus2: Int => Int => Int => Int = add4Curried(2)
   val plus4: Int => Int => Int = plus2(2)
   val plus6: Int => Int = plus4(2)

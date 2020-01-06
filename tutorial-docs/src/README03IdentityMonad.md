@@ -31,6 +31,7 @@ instances for _List_, _Option_ and _Future_ we already
 defined.
 
 ```scala mdoc:invisible
+// mdoc:invisible
 trait Monad[F[_]] {
 
   def pure[A](a: A): F[A]
@@ -41,6 +42,7 @@ trait Monad[F[_]] {
   final def flatten[A](fa: F[F[A]]): F[A] =
     flatMap(fa)(identity)
 }
+// mdoc:invisible
 ```
 
 ```scala mdoc
@@ -65,7 +67,7 @@ doesn't have _map_ and _flatMap_.
 But we can add them as extension methods (defined with
 an implicit class), which are specific for the _Id_ type:
 
-```scala mdoc
+```scala
 implicit class IdSyntax[A](fa: Id[A]) {
 
   def flatMap[B](f: A => Id[B]): Id[B] =
@@ -113,7 +115,17 @@ the package object _tutorial.libCompute_ which takes two
 values _A_ and _B_ and delegates to the monadic _compute_,
 annotating the _A_ and _B_ values as _Id[A]_ and _Id[B]_.
 
-```scala
+```scala mdoc:invisible
+// mdoc:invisible
+def compute[F[_]: Monad, A, B](fa: F[A], fb: F[B]): F[(A, B)] =
+  for {
+    a <- fa
+    b <- fb
+  } yield (a, b)
+// mdoc:invisible
+```
+
+```scala mdoc
 def compute[A, B](a: A, b: B): (A, B) =
   compute(a: Id[A], b: Id[B])
 ```

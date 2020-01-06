@@ -130,7 +130,7 @@ val add: Function2[Int, Int, Int]  = _ + _
 // add: (Int, Int) => Int = <function2>
 
 val addTupled: ((Int, Int)) => Int = add.tupled
-// addTupled: (Int, Int) => Int = scala.Function2$$Lambda$7828/0x0000000801ce6840@56b85e6f
+// addTupled: (Int, Int) => Int = scala.Function2$$Lambda$7828/0x0000000801ce6840@71f5a4a5
 
 val pair: (Int, Int)  = (21, 21)
 // pair: (Int, Int) = (21, 21)
@@ -165,10 +165,10 @@ val add: Function2[Int, Int, Int]  = _ + _
 // add: (Int, Int) => Int = <function2>
 
 val addCurried: Int => Int => Int = add.curried
-// addCurried: Int => Int => Int = scala.Function2$$Lambda$16341/0x0000000801abf840@7ec41263
+// addCurried: Int => Int => Int = scala.Function2$$Lambda$16341/0x0000000801abf840@5c15903d
 
 val plus40   = addCurried(40)
-// plus40: Int => Int = scala.Function2$$Lambda$16342/0x0000000801abf040@6d2bd834
+// plus40: Int => Int = scala.Function2$$Lambda$16342/0x0000000801abf040@63bd01a6
 val sum: Int = plus40(2) // 42
 // sum: Int = 42
 ```

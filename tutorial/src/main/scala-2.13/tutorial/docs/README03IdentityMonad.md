@@ -101,6 +101,7 @@ the package object _tutorial.libCompute_ which takes two
 values _A_ and _B_ and delegates to the monadic _compute_,
 annotating the _A_ and _B_ values as _Id[A]_ and _Id[B]_.
 
+
 ```scala
 def compute[A, B](a: A, b: B): (A, B) =
   compute(a: Id[A], b: Id[B])

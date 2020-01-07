@@ -85,12 +85,16 @@ relies on the Monad summoner provided in the _Monad_ companion object.
 With this we can use our parametric _compute_ method also
 with pure _Int_ values type-aliased to _Id[Int]_.
 
+
 ```scala
-val x: Id[Int] = 42
-val y: Id[Int] = 42
+val x1: Id[Int] = 42
+// x1: Id[Int] = 42
+val y1: Id[Int] = 42
+// y1: Id[Int] = 42
 
 // uses monadic compute method for F[Int]
-val result = compute(x, y)
+val result1 = compute(x1, y1)
+// result1: (Int, Int) = (42, 42)
 ```
 
 _x_ and _y_ must be type annotated to _Id[Int]_ to be accepted as arguments to _compute_. _compute_ only
@@ -101,7 +105,6 @@ the package object _tutorial.libCompute_ which takes two
 values _A_ and _B_ and delegates to the monadic _compute_,
 annotating the _A_ and _B_ values as _Id[A]_ and _Id[B]_.
 
-
 ```scala
 def compute[A, B](a: A, b: B): (A, B) =
   compute(a: Id[A], b: Id[B])
@@ -111,9 +114,9 @@ If _A_ and _B_ are of type _Int_ we can use _compute_ either
 with two _Int_'s or with effects on _Int_.
 
 ```scala
-val x: Int = 42
-val y: Int = 42
+val x2: Int = 42
+val y2: Int = 42
 
 // uses compute method for pure Int values
-val result = compute(x, y)
+val result = compute(x2, y2)
 ```

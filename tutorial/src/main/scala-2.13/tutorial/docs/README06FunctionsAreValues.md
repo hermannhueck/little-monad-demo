@@ -55,9 +55,9 @@ val double: Int => Int = _ * 2
 // double: Int => Int = <function1>
 val lf2 = lf1 map (f => f andThen double)
 // lf2: List[Int => Int] = List(
-//   scala.Function1$$Lambda$16331/0x0000000801ada840@6d5c7e23,
-//   scala.Function1$$Lambda$16331/0x0000000801ada840@41af1c22,
-//   scala.Function1$$Lambda$16331/0x0000000801ada840@73f088db
+//   scala.Function1$$Lambda$6853/0x000000080160d840@6ccd062c,
+//   scala.Function1$$Lambda$6853/0x000000080160d840@2d6e79bb,
+//   scala.Function1$$Lambda$6853/0x000000080160d840@452a4b34
 // )
 lf2.map(f => f(10)) // List(22, 24, 26)
 // res1: List[Int] = List(22, 24, 26)
@@ -70,7 +70,7 @@ single function.
 ```scala
 val fComposed: Int => Int =
   lf1.fold(identity[Int] _)((f, g) => f andThen g)
-// fComposed: Int => Int = scala.Function1$$Lambda$16331/0x0000000801ada840@33490472
+// fComposed: Int => Int = scala.Function1$$Lambda$6853/0x000000080160d840@30944620
 val result: Int = fComposed(10) // 16
 // result: Int = 16
 ```

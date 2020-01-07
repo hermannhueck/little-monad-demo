@@ -45,7 +45,7 @@ import util._
 
   val fComposed1: Int => Int = lf1c.fold(identity[Int](_))((f, g) => f andThen g)
   fComposed1(10) pipe println
-  val fComposed2: Int => Int = lf2d.fold(identity /*Int inferred*/)((f, g) => f andThen g)
+  val fComposed2: Int => Int = lf2d.fold(identity[Int])((f, g) => f andThen g)
   fComposed2(10) pipe println
 
   println

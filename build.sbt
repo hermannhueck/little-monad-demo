@@ -1,31 +1,25 @@
 import ScalacOptions._
+import Dependencies._
 
-val projectName = "little-monad-tutorial"
+val projectName        = "little-monad-tutorial"
+val projectDescription = "Little Monad Tutorial in Scala (Scala 2 & Dotty)"
+val projectVersion     = "0.1.0"
 
-val projectDescription = "Little Monad Tutorial in Scala"
-val projectVersion     = "0.0.1"
+// val dottyVersion = "0.21.0-RC1"
+val dottyVersion   = dottyLatestNightlyBuild.get
+val scala2xVersion = "2.13.1"
 
 inThisBuild(
   Seq(
     name := projectName,
     description := projectDescription,
     version := projectVersion,
-    scalaVersion := "2.13.1",
+    scalaVersion := dottyVersion,
+    crossScalaVersions := Seq(dottyVersion, scala2xVersion), // cross compile with Dotty and Scala 2
     publish / skip := true,
-    scalacOptions ++= defaultScalacOptions,
-    libraryDependencies ++= Seq(
-      "org.typelevel" %% "cats-effect" % "2.0.0"
-    ),
-    // https://github.com/typelevel/kind-projector
-    addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.0" cross CrossVersion.full),
-    // https://github.com/oleg-py/better-monadic-for
-    addCompilerPlugin("com.olegpy" %% "better-monadic-for" % "0.3.1"),
     initialCommands :=
       s"""|
           |import scala.util.chaining._
-          |import cats._
-          |import cats.implicits._
-          |import cats.effect._
           |println
           |""".stripMargin // initialize REPL
   )
@@ -34,21 +28,35 @@ inThisBuild(
 lazy val root = (project in file("."))
   .aggregate(tutorial)
   .settings(
+    name := projectName,
+    description := projectDescription,
     sourceDirectories := Seq.empty
   )
 
 lazy val tutorial = (project in file("tutorial"))
-  .dependsOn(util)
   .settings(
     name := "tutorial",
-    description := projectDescription
+    description := projectDescription,
+    scalacOptions ++= scalacOptionsFor(scalaVersion.value),
+    libraryDependencies ++= dependenciesFor(scalaVersion.value),
   )
 
-lazy val util = (project in file("util"))
-  .enablePlugins(BuildInfoPlugin)
+lazy val docs = project
+  .in(file("tutorial-docs"))
+  .dependsOn(tutorial)
+  .enablePlugins(MdocPlugin)
   .settings(
-    name := "util",
-    description := "Utilities",
-    buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
-    buildInfoPackage := "build"
+    scalaVersion := scala2xVersion, // mdoc supports Scala 2.x, not Dotty
+    crossScalaVersions := Seq.empty[String],
+    addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.0" cross CrossVersion.full)
+  )
+  .settings(
+    mdocIn := file("tutorial-docs/src"),
+    mdocOut := file("tutorial/src/main/scala-2.13/tutorial/docs"),
+    mdocVariables := Map(
+      "VERSION" -> version.value
+    ),
+    // mdocExtraArguments := Seq("--clean-target")
+    // mdocExtraArguments := Seq("--verbose")
+    // mdocExtraArguments := Seq("--clean-target", "--verbose")
   )

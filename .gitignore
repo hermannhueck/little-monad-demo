@@ -15,7 +15,7 @@ target/
 
 # hidden files
 .history
-.dotty-ide-disabled
+.dotty-ide*
 .DS_Store
 
 project/metals.sbt

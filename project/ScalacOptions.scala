@@ -32,4 +32,26 @@ object ScalacOptions {
     "-Ycache-plugin-class-loader:last-modified", // Enables caching of classloaders for compiler plugins
     "-Ycache-macro-class-loader:last-modified"   // and macro definitions. This can lead to performance improvements.
   )
+
+  val defaultDotcOptions = Seq(
+    "-encoding",
+    "UTF-8",                     // source files are in UTF-8
+    "-deprecation", // emit warning and location for usages of deprecated APIs
+    "-strict", // use strict type rules, which means some formerly legal code does not typecheck anymore
+    "-migration", // mit warning and location for migration issues from Scala 2
+    "-new-syntax", // require `then` and `do` in control expressions
+    "-indent", // allow significant indentation
+    "-feature", // emit warning and location for usages of features that should be imported explicitly
+    "-Ykind-projector", // allow `*` as wildcard to be compatible with kind projector
+    "-Yexplicit-nulls", // make reference types non-nullable. Nullable types can be expressed with unions: e.g. String|Null.
+    // "-Yno-kind-polymorphism", // disable kind polymorphism (see https://dotty.epfl.ch/docs/reference/kind-polymorphism.html). Potentially unsound.
+  )
+
+  def scalacOptionsFor(scalaVersion: String): Seq[String] = {
+    println(s"\n>>>>>          compiling for Scala $scalaVersion\n")
+    if (scalaVersion.startsWith("0."))
+      defaultDotcOptions
+    else
+      defaultScalacOptions
+  }
 }

@@ -52,5 +52,9 @@ _tutorial.docs_.
 
 10. In this example I implement the type classes
     _Semigroup_ and _Monoid_ as well as instances
-    for various types: _Int_, _String_, _Boolean_,
-    _List[A]_, _Option_[A]_ and _Map[K, V]_.
+    for: _Int_ and _List[A]_.
+
+11. _Semigroup_ and _Monoid_ instances for various types:
+    _String_, _Boolean_, _Option_[A]_ and _Map[K, V]_.
+
+12. Three different _Semigroup_ and _Monoid_ instances for _Function1_

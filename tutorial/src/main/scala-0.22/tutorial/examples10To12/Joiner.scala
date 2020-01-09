@@ -1,4 +1,4 @@
-package tutorial.examples10
+package tutorial.examples10To12
 
 trait Joiner[A] with
   def zero: A

@@ -51,7 +51,10 @@ object Semigroup {
 
   class MapSemigroup[K, V: Semigroup] extends Semigroup[Map[K, V]] {
     override def combine(lhs: Map[K, V], rhs: Map[K, V]): Map[K, V] =
-      mapCombine2(lhs, rhs)
+      if (false)
+        mapCombine1(lhs, rhs)
+      else
+        mapCombine2(lhs, rhs)
   }
 
   // this impl deletes one value, if the same key is found in both maps
@@ -71,4 +74,28 @@ object Semigroup {
   }
 
   implicit def mapSemigroup[K, V: Semigroup]: Semigroup[Map[K, V]] = new MapSemigroup[K, V]
+
+
+  class Function1AndThenSemigroup[A] extends Semigroup[A => A] {
+    override def combine(f: A => A, g: A => A): A => A =
+      f andThen g
+  }
+
+  implicit def function1AndThenSemigroup[A]: Semigroup[A => A] = new Function1AndThenSemigroup[A]
+
+
+  class Function1ComposeSemigroup[A] extends Semigroup[A => A] {
+    override def combine(f: A => A, g: A => A): A => A =
+      f compose g
+  }
+
+  def function1ComposeSemigroup[A]: Semigroup[A => A] = new Function1ComposeSemigroup[A]
+
+  
+  class Function1ApplySemigroup[A, B: Semigroup] extends Semigroup[A => B] {
+    override def combine(f: A => B, g: A => B): A => B =
+      a => f(a) combine g(a)
+  }
+
+  def function1ApplySemigroup[A, B: Semigroup]: Semigroup[A => B] = new Function1ApplySemigroup[A, B]
 }

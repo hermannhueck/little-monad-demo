@@ -46,4 +46,19 @@ object Monoid {
     new Semigroup.MapSemigroup[K, V] with Monoid[Map[K, V]] {
       override def empty: Map[K, V] = Map.empty[K, V]
     }
+
+  implicit def function1AndThenMonoid[A]: Monoid[A => A] =
+    new Semigroup.Function1AndThenSemigroup[A] with Monoid[A => A] {
+      override def empty: A => A = identity
+  }
+
+  def function1ComposeMonoid[A]: Monoid[A => A] =
+    new Semigroup.Function1ComposeSemigroup[A] with Monoid[A => A] {
+      override def empty: A => A = identity
+  }
+
+  def function1ApplyMonoid[A, B: Monoid]: Monoid[A => B] =
+    new Semigroup.Function1ApplySemigroup[A, B] with Monoid[A => B] {
+      override def empty: A => B = _ => Monoid[B].empty
+    }
 }

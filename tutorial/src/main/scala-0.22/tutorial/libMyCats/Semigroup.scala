@@ -63,6 +63,27 @@ object Semigroup {
       lhs ++ rMapWithCommonKeysCombined
 
   given [K, V: Semigroup]: Semigroup[Map[K, V]] with MapSemigroup[K, V]
+
+
+  trait Function1AndThenSemigroup[A] extends Semigroup[A => A]
+    override def combine(f: A => A, g: A => A): A => A =
+      f andThen g
+
+  given [A]: Semigroup[A => A] = new Function1AndThenSemigroup[A] {}
+
+
+  class Function1ComposeSemigroup[A] extends Semigroup[A => A]
+    override def combine(f: A => A, g: A => A): A => A =
+      f compose g
+
+  def function1ComposeSemigroup[A]: Semigroup[A => A] = new Function1ComposeSemigroup[A]
+
+
+  class Function1ApplySemigroup[A, B: Semigroup] extends Semigroup[A => B]
+    override def combine(f: A => B, g: A => B): A => B =
+      a => f(a) combine g(a)
+
+  def function1ApplySemigroup[A, B: Semigroup]: Semigroup[A => B] = new Function1ApplySemigroup[A, B]
 }
 
 

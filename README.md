@@ -50,6 +50,7 @@ _tutorial.docs_.
 9. In this example I implement the _IO_ Monad, which
    wraps a _Function0_.
 
-10. Int this example I implement the type classes
+10. In this example I implement the type classes
     _Semigroup_ and _Monoid_ as well as instances
-    for various types.
+    for various types: _Int_, _String_, _Boolean_,
+    _List[A]_, _Option_[A]_ and _Map[K, V]_.

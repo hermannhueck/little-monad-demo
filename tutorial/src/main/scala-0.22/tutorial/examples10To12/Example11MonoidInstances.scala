@@ -5,15 +5,10 @@ import scala.language.implicitConversions
 import util._
 
 import tutorial.libMyCats._
+// should work w/o this import
+import tutorial.libMyCats.Semigroup.given
 
 @main def Example11MonoidInstances: Unit = {
-
-  // Monoid[Int] in local scope overrides Monoid[Int] in implicit scope (companion object)
-  val intProductMonoid: Monoid[Int] = new Monoid[Int] {
-    override def empty: Int = 1
-    override def combine(lhs: Int, rhs: Int): Int =
-      lhs * rhs
-  }
 
   line().green pipe println
 

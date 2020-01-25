@@ -5,13 +5,15 @@ import scala.language.implicitConversions
 import util._
 
 import tutorial.libMyCats._
+// should work w/o this import
+import tutorial.libMyCats.Semigroup.given
 
 @main def Example10MonoidDemo: Unit = {
 
   // Monoid[Int] in local scope overrides Monoid[Int] in implicit scope (companion object)
   val intProductMonoid: Monoid[Int] = new Monoid[Int] {
     override def empty: Int = 1
-    override def combine(lhs: Int, rhs: Int): Int =
+    override def (lhs: Int).combine(rhs: Int): Int =
       lhs * rhs
   }
 
@@ -20,7 +22,7 @@ import tutorial.libMyCats._
   s"${line(10)} Semigroup[Int] ${line(40)}".green pipe println
 
   s"2 combine 3 = ${2 combine 3}" pipe println
-  s"2 combine 3 = ${2.combine(3)(given intProductMonoid)}" pipe println
+  //s"2 combine 3 = ${2.combine(3)(given intProductMonoid)}" pipe println
 
   s"${line(10)} Semigroup[List[Int]] ${line(40)}".green pipe println
 

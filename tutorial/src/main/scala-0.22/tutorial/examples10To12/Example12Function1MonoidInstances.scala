@@ -5,6 +5,9 @@ import scala.language.implicitConversions
 import util._
 
 import tutorial.libMyCats._
+// should work w/o this import
+import tutorial.libMyCats.Semigroup.given
+import tutorial.libMyCats.Monoid.given
 
 @main def Example12Function1MonoidInstances: Unit = {
 

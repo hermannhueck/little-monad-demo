@@ -9,33 +9,33 @@ trait Monoid[A] extends Semigroup[A] {
 
   def empty: A
 
-  def combineAll(as: Seq[A]) =
-    as.fold(empty)(combine)
+  def (as: Seq[A]) combineAll =
+    as.fold(empty)(_ combine _)
 }
 
 object Monoid {
 
   def apply[A: Monoid]: Monoid[A] = summon // summoner
 
-  given Monoid[Int] with Semigroup.IntSemigroup
+  given as Monoid[Int] with Semigroup.IntSemigroup
     override def empty: Int = 0
 
-  given Monoid[String] with Semigroup.StringSemigroup
+  given as Monoid[String] with Semigroup.StringSemigroup
     override def empty: String = ""
 
-  given Monoid[Boolean] with Semigroup.BooleanSemigroup
+  given as Monoid[Boolean] with Semigroup.BooleanSemigroup
     override def empty: Boolean = true
 
-  given [A]: Monoid[List[A]] with Semigroup.ListSemigroup[A]
+  given [A] as Monoid[List[A]] with Semigroup.ListSemigroup[A]
     override def empty: List[A] = List.empty[A]
 
-  given [A: Semigroup]: Monoid[Option[A]] with Semigroup.OptionSemigroup[A]
+  given [A: Semigroup] as Monoid[Option[A]] with Semigroup.OptionSemigroup[A]
     override def empty: Option[A] = Option.empty[A]
 
-  given [K, V: Semigroup]: Monoid[Map[K, V]] with Semigroup.MapSemigroup[K, V]
+  given [K, V: Semigroup] as Monoid[Map[K, V]] with Semigroup.MapSemigroup[K, V]
     override def empty: Map[K, V] = Map.empty[K, V]
 
-  given [A]: Monoid[A => A] with Semigroup.Function1AndThenSemigroup[A]
+  given [A] as Monoid[A => A] with Semigroup.Function1AndThenSemigroup[A]
     override def empty: A => A = identity
 
   import scala.language.adhocExtensions
@@ -51,5 +51,6 @@ object Monoid {
     }
 }
 
+// should work without this helper
 def [A: Monoid](as: Seq[A]) combineAll: A =
   Monoid[A].combineAll(as)

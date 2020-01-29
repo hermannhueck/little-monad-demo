@@ -17,6 +17,22 @@ trait Monad[F[_]] {
 
   final def flatten[A](fa: F[F[A]]): F[A] =
     flatMap(fa)(identity)
+
+  // analogous to Function1#andThen
+  final def andThenF[A, B, C](f: A => F[B])(g: B => F[C]): A => F[C] =
+    a => flatMap(f(a))(g)
+  final def kleisli[A, B, C](f: A => F[B])(g: B => F[C]): A => F[C] =
+    andThenF(f)(g)
+  final def >=>[A, B, C](f: A => F[B])(g: B => F[C]): A => F[C] =
+    andThenF(f)(g)
+
+  // analogous to Function1#compose
+  final def composeF[A, B, C](g: B => F[C])(f: A => F[B]): A => F[C] =
+    andThenF(f)(g)
+  final def cokleisli[A, B, C](g: B => F[C])(f: A => F[B]): A => F[C] =
+    composeF(g)(f)
+  final def <=<[A, B, C](g: B => F[C])(f: A => F[B]): A => F[C] =
+    composeF(g)(f)
 }
 
 object Monad {

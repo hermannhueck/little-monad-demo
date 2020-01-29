@@ -21,6 +21,17 @@ package object libMyCats {
       Monad[F].map(fa)(f)
   }
 
+  implicit final class KleisliSyntaxOnFunction1[F[_]: Monad, A, B](f: A => F[B]) {
+    @inline def andThenF[C](g: B => F[C]): A => F[C] = Monad[F].andThenF(f)(g)
+    @inline def kleisli[C](g: B => F[C]): A => F[C] = Monad[F].kleisli(f)(g)
+    @inline def >=>[C](g: B => F[C]): A => F[C] = Monad[F].>=>(f)(g)
+  }
+  implicit final class CoKleisliSyntaxOnFunction1[F[_]: Monad, B, C](g: B => F[C]) {
+    @inline def composeF[A](f: A => F[B]): A => F[C] = Monad[F].composeF(g)(f)
+    @inline def cokleisli[A](f: A => F[B]): A => F[C] = Monad[F].cokleisli(g)(f)
+    @inline def <=<[A](f: A => F[B]): A => F[C] = Monad[F].<=<(g)(f)
+  }
+
   def compute[A, B](a: A, b: B): (A, B) =
     compute(a: Id[A], b: Id[B])
 

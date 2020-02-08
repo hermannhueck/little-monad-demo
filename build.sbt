@@ -5,7 +5,7 @@ val projectName        = "little-monad-tutorial"
 val projectDescription = "Little Monad Tutorial in Scala (Scala 2 & Dotty)"
 val projectVersion     = "0.1.0"
 
-// val dottyVersion = "0.21.0-RC1"
+// val dottyVersion = "0.22.0-RC1"
 val dottyVersion   = dottyLatestNightlyBuild.get
 val scala2xVersion = "2.13.1"
 

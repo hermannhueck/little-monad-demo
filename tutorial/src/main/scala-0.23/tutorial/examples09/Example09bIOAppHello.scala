@@ -8,7 +8,7 @@ import util._
 
 @main def IOAppHello: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   // referentially transparent description of the program
 
@@ -24,5 +24,5 @@ import util._
 
   helloDesc.unsafeRun()
 
-  lineEnd() pipe println
+  line().green pipe println
 }

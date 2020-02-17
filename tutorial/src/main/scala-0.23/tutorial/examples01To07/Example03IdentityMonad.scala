@@ -8,7 +8,7 @@ import scala.language.implicitConversions
 
 @main def Example03: Unit =
 
-  lineStart() pipe println
+  line().green pipe println
 
   println("----- Identity:")
 
@@ -16,5 +16,4 @@ import scala.language.implicitConversions
   val idResult = compute(id, id)
   println(idResult)
 
-  lineEnd() pipe println
-
+  line().green pipe println

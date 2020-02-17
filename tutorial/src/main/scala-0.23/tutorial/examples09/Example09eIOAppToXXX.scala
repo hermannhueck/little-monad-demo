@@ -11,7 +11,7 @@ import util._
 
 object IOAppToXXX extends App {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val random = scala.util.Random
 
@@ -60,5 +60,5 @@ object IOAppToXXX extends App {
   runComputationReturningEither()
   runComputationReturningFuture()
 
-  lineEnd() pipe println
+  line().green pipe println
 }

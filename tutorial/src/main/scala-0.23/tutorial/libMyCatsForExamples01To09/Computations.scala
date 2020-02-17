@@ -6,7 +6,7 @@ def compute[A, B, F[_]: Monad](fa: F[A], fb: F[B]): F[(A, B)] =
     i2 <- fb
   yield (i1, i2)
 
-def compute2[A, B, F[_]](fa: F[A], fb: F[B])(given Monad[F]): F[(A, B)] =
+def compute2[A, B, F[_]](fa: F[A], fb: F[B])(using Monad[F]): F[(A, B)] =
   fa.flatMap { i1 =>
     fb.map { i2 =>
       (i1, i2)

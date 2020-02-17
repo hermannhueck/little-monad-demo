@@ -6,11 +6,11 @@ import util._
 
 import tutorial.libMyCats._
 // TODO: Function1 Monad should be found in implicit scope (companion object) without explicit import
-import tutorial.libMyCats.Monad.given
+import tutorial.libMyCats.Monad.{given _}
 
 @main def Example07Function1Monad: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val plus1: Int => Int  = (x => x + 1)
   val times2: Int => Int = (x => x * 2)
@@ -30,5 +30,5 @@ import tutorial.libMyCats.Monad.given
   val fn2 = compute(plus1, times2)
   fn2(10) pipe println // (11, 20)
 
-  lineEnd() pipe println
+  line().green pipe println
 }

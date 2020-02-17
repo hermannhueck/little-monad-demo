@@ -14,7 +14,7 @@ import scala.language.implicitConversions
 
 @main def Example02(): Unit =
 
-  lineStart() pipe println
+  line().green pipe println
 
   println("----- List:")
 
@@ -46,7 +46,7 @@ import scala.language.implicitConversions
   println("----- Future:")
 
   // import ExecutionContext.Implicits.{given ExecutionContext}
-  given ec: ExecutionContext = ExecutionContext.global
+  given ec as ExecutionContext = ExecutionContext.global
 
   val f1 = Future(1)
   val f2 = Future(10)
@@ -72,4 +72,4 @@ import scala.language.implicitConversions
 
   Thread.sleep(500L)
 
-  lineEnd() pipe println
+  line().green pipe println

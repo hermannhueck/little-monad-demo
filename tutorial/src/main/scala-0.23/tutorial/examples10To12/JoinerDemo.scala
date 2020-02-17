@@ -6,7 +6,7 @@ import scala.language.implicitConversions
 
 import Joiner._
 // should work w/o this import
-import Joiner.given
+import Joiner.{given _}
 
 @main def JoinerDemo: Unit =
 

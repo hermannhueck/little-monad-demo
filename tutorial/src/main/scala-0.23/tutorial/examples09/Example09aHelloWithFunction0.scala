@@ -6,7 +6,7 @@ import util._
 
 @main def HelloWithFunction0: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val promptForName: () => Unit =
     () => print("Whats your name?  ")
@@ -24,5 +24,5 @@ import util._
     printHello(name)
   printHelloWithName()
 
-  lineEnd() pipe println
+  line().green pipe println
 }

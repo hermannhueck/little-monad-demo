@@ -1,6 +1,6 @@
 package tutorial.libMyCats
 
-trait Monoid[A] extends Semigroup[A] {
+trait Monoid[A] extends Semigroup[A]:
 
   // laws:
   // - associativity (inherited from Semigroup)
@@ -11,31 +11,31 @@ trait Monoid[A] extends Semigroup[A] {
 
   def (as: Seq[A]) combineAll =
     as.fold(empty)(_ combine _)
-}
+end Monoid
 
-object Monoid {
+object Monoid:
 
   def apply[A: Monoid]: Monoid[A] = summon // summoner
 
-  given as Monoid[Int] with Semigroup.IntSemigroup
+  given as Monoid[Int] with Semigroup.IntSemigroup:
     override def empty: Int = 0
 
-  given as Monoid[String] with Semigroup.StringSemigroup
+  given as Monoid[String] with Semigroup.StringSemigroup:
     override def empty: String = ""
 
-  given as Monoid[Boolean] with Semigroup.BooleanSemigroup
+  given as Monoid[Boolean] with Semigroup.BooleanSemigroup:
     override def empty: Boolean = true
 
-  given [A] as Monoid[List[A]] with Semigroup.ListSemigroup[A]
+  given [A] as Monoid[List[A]] with Semigroup.ListSemigroup[A]:
     override def empty: List[A] = List.empty[A]
 
-  given [A: Semigroup] as Monoid[Option[A]] with Semigroup.OptionSemigroup[A]
+  given [A: Semigroup] as Monoid[Option[A]] with Semigroup.OptionSemigroup[A]:
     override def empty: Option[A] = Option.empty[A]
 
-  given [K, V: Semigroup] as Monoid[Map[K, V]] with Semigroup.MapSemigroup[K, V]
+  given [K, V: Semigroup] as Monoid[Map[K, V]] with Semigroup.MapSemigroup[K, V]:
     override def empty: Map[K, V] = Map.empty[K, V]
 
-  given [A] as Monoid[A => A] with Semigroup.Function1AndThenSemigroup[A]
+  given [A] as Monoid[A => A] with Semigroup.Function1AndThenSemigroup[A]:
     override def empty: A => A = identity
 
   import scala.language.adhocExtensions
@@ -49,7 +49,7 @@ object Monoid {
     new Semigroup.Function1ApplySemigroup[A, B] with Monoid[A => B] {
       override def empty: A => B = _ => Monoid[B].empty
     }
-}
+end Monoid
 
 // should work without this helper
 def [A: Monoid](as: Seq[A]) combineAll: A =

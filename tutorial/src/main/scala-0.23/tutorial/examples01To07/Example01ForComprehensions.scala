@@ -23,7 +23,7 @@ def compute2(list1: List[Int], list2: List[Int]): List[(Int, Int)] =
   }
 
 // import ExecutionContext.Implicits.{given ExecutionContext}
-given ec: ExecutionContext = ExecutionContext.global
+given ExecutionContext = ExecutionContext.global
 
 def compute(future1: Future[Int], future2: Future[Int]): Future[(Int, Int)] =
   for
@@ -39,7 +39,7 @@ def compute(option1: Option[Int], option2: Option[Int]): Option[(Int, Int)] =
 
 @main def Example01(): Unit =
   
-  lineStart() pipe println
+  line().green pipe println
 
   println("----- List:")
 
@@ -71,4 +71,4 @@ def compute(option1: Option[Int], option2: Option[Int]): Option[(Int, Int)] =
 
   println(fResult)
   
-  lineEnd() pipe println
+  line().green pipe println

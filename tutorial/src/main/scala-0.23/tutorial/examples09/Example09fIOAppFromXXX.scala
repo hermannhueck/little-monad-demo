@@ -12,7 +12,7 @@ import util._
 
 object IOAppFromXXX extends App {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val random = scala.util.Random
 
@@ -33,7 +33,7 @@ object IOAppFromXXX extends App {
   io2.unsafeRunToEither() pipe println
 
   "\n----- IO.fromFuture:" pipe println
-  given ec: ExecutionContext = ExecutionContext.global
+  given ec as ExecutionContext = ExecutionContext.global
 
   def getFuture(): Future[Int] = Future {
     "STARTING async computation" pipe println
@@ -46,7 +46,7 @@ object IOAppFromXXX extends App {
   val io3 = IO.fromFuture(getFuture(), 2.second)
   // io3.unsafeRunToEither() pipe println
   
-  val fut = io3.unsafeRunToFuture(given ec)
+  val fut = io3.unsafeRunToFuture(using ec)
 
   // Await.result(fut, Duration.Inf) pipe println
   fut.onComplete(tryy => tryy.fold(t => t.getMessage, v => v.toString) pipe println)
@@ -54,5 +54,5 @@ object IOAppFromXXX extends App {
   // just to prevent the main thread from being terminated before the Future has finished executing.
   Thread.sleep(3000L)
 
-  lineEnd() pipe println
+  line().green pipe println
 }

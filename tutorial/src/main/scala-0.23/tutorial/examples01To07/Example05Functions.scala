@@ -6,7 +6,7 @@ import scala.language.implicitConversions
 
 @main def Example05: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   def someComputation(): Int = {
     val result = {
@@ -123,5 +123,5 @@ import scala.language.implicitConversions
   val sum4a = add4Curried(2)(2)(2)(2)
   sum4a pipe println
 
-  lineEnd() pipe println
+  line().green pipe println
 }

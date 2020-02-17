@@ -8,7 +8,7 @@ import tutorial.libMyCats._
 
 @main def DbReaderApp: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val db: Database = Database.get
 
@@ -39,5 +39,5 @@ import tutorial.libMyCats._
   checkLogin("katy", "acidburn").run(db) pipe println
   checkLogin("margo", "secrets").run(db) pipe println
 
-  lineEnd() pipe println
+  line().green pipe println
 }

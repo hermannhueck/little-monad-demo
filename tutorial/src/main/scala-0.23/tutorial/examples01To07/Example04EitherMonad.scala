@@ -8,7 +8,7 @@ import tutorial.libMyCats._
 
 @main def Example04: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val e1 = Right(13).withLeft[String]
   val e2 = Right(21).withLeft[String]
@@ -44,5 +44,5 @@ import tutorial.libMyCats._
 
   result pipe println
 
-  lineEnd() pipe println
+  line().green pipe println
 }

@@ -8,7 +8,7 @@ import tutorial.libMyCats._
 
 @main def Example08aReaderMonad: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val plus1: Int => Int          = _ + 1
   val doubled: Int => Int        = _ * 2
@@ -39,5 +39,5 @@ import tutorial.libMyCats._
   (rPlus1 andThen doubled).run(10) pipe println  // 22
   (rPlus1 andThen doubled).provide(10) pipe println  // 22
 
-  lineEnd() pipe println
+  line().green pipe println
 }

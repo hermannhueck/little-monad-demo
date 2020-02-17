@@ -6,7 +6,7 @@ import util._
 
 import tutorial.libMyCats._
 // should work w/o this import
-import tutorial.libMyCats.Semigroup.given
+import tutorial.libMyCats.Semigroup.{given _}
 
 @main def Example10MonoidDemo: Unit = {
 
@@ -35,7 +35,7 @@ import tutorial.libMyCats.Semigroup.given
   s"${line(10)} Monoid[Int] ${line(40)}".green pipe println
 
   val sumOfInts = liJoined.combineAll
-  val productOfInts = liJoined.combineAll(given intProductMonoid)
+  val productOfInts = liJoined.combineAll(using intProductMonoid)
   s"all ints joined to a sum: $sumOfInts" pipe println
   s"all ints joined to a product: $productOfInts" pipe println
 

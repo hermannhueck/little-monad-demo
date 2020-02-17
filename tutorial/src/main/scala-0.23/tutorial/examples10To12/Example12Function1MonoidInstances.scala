@@ -6,8 +6,8 @@ import util._
 
 import tutorial.libMyCats._
 // should work w/o this import
-import tutorial.libMyCats.Semigroup.given
-import tutorial.libMyCats.Monoid.given
+import tutorial.libMyCats.Semigroup.{given _}
+import tutorial.libMyCats.Monoid.{given _}
 
 @main def Example12Function1MonoidInstances: Unit = {
 
@@ -29,7 +29,7 @@ import tutorial.libMyCats.Monoid.given
   import Monoid.function1ComposeMonoid
   
   val fComposedWithCompose1 = function1ComposeMonoid.combineAll(lii)
-  val fComposedWithCompose2 = lii.combineAll(given function1ComposeMonoid)
+  val fComposedWithCompose2 = lii.combineAll(using function1ComposeMonoid)
 
   fComposedWithCompose1(5).ensuring(_ == -8) pipe println
   fComposedWithCompose2(5).ensuring(_ == -8) pipe println
@@ -38,7 +38,7 @@ import tutorial.libMyCats.Monoid.given
   import Monoid.function1ApplyMonoid
 
   val lis: List[Int => String] = lii.map(f => f andThen (x => s"${x.toString} "))
-  val fComposedWithApply = lis.combineAll(given function1ApplyMonoid)
+  val fComposedWithApply = lis.combineAll(using function1ApplyMonoid)
   fComposedWithApply(5).trim pipe println
 
   line().green pipe println

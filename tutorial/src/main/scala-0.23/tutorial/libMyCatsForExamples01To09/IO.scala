@@ -9,7 +9,7 @@ import scala.concurrent.duration.Duration
 
 import scala.annotation._
 
-final case class IO[A](unsafeRun: () => A) {
+final case class IO[A](unsafeRun: () => A):
 
   @infix def map[B](f: A => B): IO[B] =
     IO(() => f(unsafeRun()))
@@ -26,13 +26,13 @@ final case class IO[A](unsafeRun: () => A) {
   def unsafeRunToEither(): Either[Throwable, A] =
     unsafeRunToTry().toEither
 
-  def unsafeRunToFuture(given ExecutionContext): Future[A] =
+  def unsafeRunToFuture(using ExecutionContext): Future[A] =
     Future(unsafeRun())
-}
+end IO
 
-object IO {
+object IO:
 
-  given Monad[IO]
+  given Monad[IO]:
     override def pure[A](a: A): IO[A] = IO pure a
     override def [A, B](io: IO[A]) flatMap (f: A => IO[B]): IO[B] =
       io flatMap f
@@ -71,4 +71,4 @@ object IO {
   @infix def fromFuture[A](future: => Future[A], timeout: Duration = Duration.Inf): IO[A] =
     eval(Await.result(future, timeout)) // !!! Blocking when executed !!!
     // !!! Blocking doesn't give us a valid impl of fromFuture !!!
-}
+end IO

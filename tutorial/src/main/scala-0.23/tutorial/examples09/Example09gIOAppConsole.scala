@@ -11,7 +11,7 @@ import util._
 
 object IOAppConsole extends App {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val random = scala.util.Random
 
@@ -70,5 +70,5 @@ object IOAppConsole extends App {
   runHelloReturningEither()
   // runHelloReturningFuture() // a termional program is not well suited to be run asynchronously.
 
-  lineEnd() pipe println
+  line().green pipe println
 }

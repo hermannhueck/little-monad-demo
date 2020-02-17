@@ -8,7 +8,7 @@ import tutorial.libMyCats._
 
 @main def IOAppCompute: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val io1 = IO.pure(40)
   val io2 = IO pure 2
@@ -38,5 +38,5 @@ import tutorial.libMyCats._
   }
   // lazyy.unsafeRun()
 
-  lineEnd() pipe println
+  line().green pipe println
 }

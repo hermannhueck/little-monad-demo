@@ -6,7 +6,7 @@ import util._
 
 @main def Example06FunctionsAreValues: Unit = {
 
-  lineStart() pipe println
+  line().green pipe println
 
   val plus1: Function1[Int, Int] = x => x + 1
   def plus2(x: Int): Int         = x + 2
@@ -65,5 +65,5 @@ import util._
   // implicit expansion just using the method name
   List(1, 2, 3) map times2 pipe println
 
-  lineEnd() pipe println
+  line().green pipe println
 }

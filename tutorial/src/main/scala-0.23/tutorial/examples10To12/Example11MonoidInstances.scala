@@ -6,7 +6,7 @@ import util._
 
 import tutorial.libMyCats._
 // should work w/o this import
-import tutorial.libMyCats.Semigroup.given
+import tutorial.libMyCats.Semigroup.{given _}
 
 @main def Example11MonoidInstances: Unit = {
 

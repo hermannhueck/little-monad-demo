@@ -38,7 +38,7 @@ object Monoid {
     instance(Option.empty[A])(Semigroup.combineOptions)
 
   implicit def mapMonoid[K, V: Semigroup]: Monoid[Map[K, V]] =
-    instance(Map.empty[K, V])((lMap, rMap) => Semigroup.mapCombine2(lMap, rMap))
+    instance(Map.empty[K, V])(Semigroup.combineMaps(_, _))
 
   implicit def function1AndThenMonoid[A]: Monoid[A => A] =
     instance(identity[A](_))(_ andThen _)
@@ -47,9 +47,5 @@ object Monoid {
     instance(identity[A](_))(_ compose _)
 
   def function1ApplyMonoid[A, B: Monoid]: Monoid[A => B] =
-    instance { (_: A) =>
-      Monoid[B].empty
-    } { (f: A => B, g: A => B) => a =>
-      f(a) combine g(a)
-    }
+    instance { (_: A) => Monoid[B].empty } { (f: A => B, g: A => B) => a => f(a) combine g(a) }
 }

@@ -2,91 +2,57 @@ package tutorial.libMyCats
 
 import scala.annotation.infix
 
-  trait Semigroup[A]:
-
+trait Semigroup[A]:
+  @infix def (lhs: A).combine(rhs: A): A
   // laws:
   // - associativity
 
-  @infix def (lhs: A).combine(rhs: A): A
-end Semigroup
 
 object Semigroup {
 
   def apply[A: Semigroup]: Semigroup[A] = summon // summoner
 
 
-  trait IntSemigroup extends Semigroup[Int]:
-    @infix override def (lhs: Int).combine(rhs: Int): Int = lhs + rhs
+  def instance[A](f: (A, A) => A): Semigroup[A] = new Semigroup[A] {
+    @infix override def (lhs: A).combine(rhs: A): A = f(lhs, rhs)
+  }
 
-  given as Semigroup[Int] with IntSemigroup
+  given as Semigroup[Int] = instance(_ + _)
 
+  given as Semigroup[String] = instance(_ ++ _)
 
-  trait StringSemigroup extends Semigroup[String]:
-    @infix override def (lhs: String).combine(rhs: String): String = lhs ++ rhs
+  given as Semigroup[Boolean] = instance(_ && _)
 
-  given as Semigroup[String] with StringSemigroup
-
-
-  trait BooleanSemigroup extends Semigroup[Boolean]:
-    @infix override def (lhs: Boolean).combine(rhs: Boolean): Boolean = lhs && rhs
-
-  given as Semigroup[Boolean] with BooleanSemigroup
-
-
-  trait ListSemigroup[A] extends Semigroup[List[A]]:
+  // conflict with Function1 Semigroup on line 52
+  // given [A] as Semigroup[List[A]] = instance[List[A]](_ ++ _)
+  given [A] as Semigroup[List[A]]:
     @infix override def (lhs: List[A]).combine(rhs: List[A]): List[A] = lhs ++ rhs
 
-  given [A] as Semigroup[List[A]] with ListSemigroup[A]
+  def combineOptions[A: Semigroup]: (Option[A], Option[A]) => Option[A] =
+    case (Some(la), Some(ra)) => Some(la combine ra)
+    case (Some(la), None)     => Some(la)
+    case (None, Some(ra))     => Some(ra)
+    case (None, None)         => None
 
+  given [A: Semigroup] as Semigroup[Option[A]] = instance(combineOptions)
 
-  trait OptionSemigroup[A: Semigroup] extends Semigroup[Option[A]]:
-    @infix override def (lhs: Option[A]).combine(rhs: Option[A]): Option[A] =
-      (lhs, rhs) match
-        case (None, None) => None
-        case (Some(left), None) => Some(left)
-        case (None, Some(right)) => Some(right)
-        case (Some(left), Some(right)) => Some(left combine right)
-
-  given [A: Semigroup] as Semigroup[Option[A]] with OptionSemigroup[A]
-
-  trait MapSemigroup[K, V: Semigroup] extends Semigroup[Map[K, V]]:
-    @infix override def (lhs: Map[K, V]).combine(rhs: Map[K, V]): Map[K, V] =
-      // this impl deletes one value, if the same key is found in both maps
-      // lhs ++ rhs
-      val rMapWithCommonKeysCombined =
-        rhs
-          .map { (key, value) =>
-            if !lhs.keys.toSet.contains(key)
+  def combineMaps[K, V: Semigroup](lhs: Map[K, V], rhs: Map[K, V]): Map[K, V] =
+    lhs ++ rhs
+        .map {
+          case key -> value if !lhs.keys.toSet.contains(key) =>
               key -> value
-            else
-              key -> (lhs(key) combine value)
-            }
-      lhs ++ rMapWithCommonKeysCombined
+          case key -> value =>
+              key -> (value combine lhs(key))
+        }
 
-  given [K, V: Semigroup] as Semigroup[Map[K, V]] with MapSemigroup[K, V]
+  given [K, V: Semigroup] as Semigroup[Map[K, V]] = instance(combineMaps)
 
+  given [A] as Semigroup[A => A] =  instance(_ andThen _)
 
-  trait Function1AndThenSemigroup[A] extends Semigroup[A => A]:
-    @infix override def (f: A => A).combine(g: A => A): A => A =
-      f andThen g
+  def function1ComposeSemigroup[A]: Semigroup[A => A] = instance(_ compose _)
 
-  given [A] as Semigroup[A => A] = new Function1AndThenSemigroup[A] {}
-
-
-  class Function1ComposeSemigroup[A] extends Semigroup[A => A]:
-    @infix override def (f: A => A).combine(g: A => A): A => A =
-      f compose g
-
-  def function1ComposeSemigroup[A]: Semigroup[A => A] = new Function1ComposeSemigroup[A]
-
-
-  class Function1ApplySemigroup[A, B: Semigroup] extends Semigroup[A => B]:
-    @infix override def (f: A => B).combine(g: A => B): A => B =
-      a => f(a) combine g(a)
-
-  def function1ApplySemigroup[A, B: Semigroup]: Semigroup[A => B] = new Function1ApplySemigroup[A, B]
+  def function1ApplySemigroup[A, B: Semigroup]: Semigroup[A => B] =
+    instance { (f: A => B, g: A => B) => a =>
+      f(a) combine g(a)
+    }
 }
-
-
-//@infix def [A](lhs: A).combine(rhs: A)(given sg: Semigroup[A]): A =
-  //sg.combine(lhs, rhs)

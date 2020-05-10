@@ -34,10 +34,8 @@ final case class IO[A](unsafeRun: () => A) {
 object IO {
 
   implicit val ioMonad: Monad[IO] = new Monad[IO] {
-
     override def pure[A](a: A): IO[A] =
       IO.pure(a)
-
     override def flatMap[A, B](io: IO[A])(f: A => IO[B]): IO[B] =
       io flatMap f
   }

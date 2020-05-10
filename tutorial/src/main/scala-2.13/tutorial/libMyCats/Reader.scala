@@ -28,10 +28,8 @@ final case class Reader[P, A](run: P => A) {
 object Reader {
 
   implicit def readerMonad[P]: Monad[Reader[P, ?]] = new Monad[Reader[P, ?]] {
-
     def pure[A](a: A): Reader[P, A] =
       Reader.pure(a)
-
     def flatMap[A, B](fa: Reader[P, A])(f: A => Reader[P, B]): Reader[P, B] =
       fa flatMap f
   }

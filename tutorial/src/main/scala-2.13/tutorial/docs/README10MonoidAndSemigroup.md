@@ -178,7 +178,7 @@ val sum = ints.joinAll
 
 This _Joiner_ in fact is a _Monoid_.
 
-A _Monoid_ like _Semigroup_ prescibes that the join
+_Monoid_ like _Semigroup_ prescibe that the join
 operation is associative. Additionally it must define
 an empty value (here called _zero_) which abides by the left
 identity law and right identity law:
@@ -240,10 +240,15 @@ object Semigroup {
   def apply[A: Semigroup]: Semigroup[A] = implicitly // summoner
 
 
-  trait IntSemigroup extends Semigroup[Int] {
-    override def combine(lhs: Int, rhs: Int): Int = lhs + rhs
+  def instance[A](f: (A, A) => A): Semigroup[A] = new Semigroup[A] {
+    override def combine(lhs: A, rhs: A): A = f(lhs, rhs)
   }
-  implicit val intSemigroup: Semigroup[Int] = new IntSemigroup {}
+
+  implicit val intSemigroup: Semigroup[Int] =
+    instance(_ + _)
+
+  implicit val stringSemigroup: Semigroup[String] =
+    instance(_ ++ _)
 
   // ... other Semigroup instances ...
 }
@@ -252,9 +257,16 @@ object Monoid {
 
   def apply[A: Monoid]: Monoid[A] = implicitly // summoner
 
-  implicit val intMonoid: Monoid[Int] = new Semigroup.IntSemigroup with Monoid[Int] {
-    override def empty: Int = 0
+  def instance[A](z: A)(f: (A, A) => A): Monoid[A] = new Monoid[A] {
+    override def empty: A                   = z
+    override def combine(lhs: A, rhs: A): A = f(lhs, rhs)
   }
+
+  implicit val intMonoid: Monoid[Int] =
+    instance(0)(_ + _)
+
+  implicit val stringMonoid: Monoid[String] =
+    instance("")(_ ++ _)
 
   // ... other Monoid instances ...
 }

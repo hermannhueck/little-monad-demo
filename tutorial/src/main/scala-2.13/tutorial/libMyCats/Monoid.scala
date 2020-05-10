@@ -17,48 +17,39 @@ object Monoid {
 
   def apply[A: Monoid]: Monoid[A] = implicitly // summoner
 
+  def instance[A](z: A)(f: (A, A) => A): Monoid[A] = new Monoid[A] {
+    override def empty: A                   = z
+    override def combine(lhs: A, rhs: A): A = f(lhs, rhs)
+  }
+
   implicit val intMonoid: Monoid[Int] =
-    new Semigroup.IntSemigroup with Monoid[Int] {
-      override def empty: Int = 0
-    }
+    instance(0)(_ + _)
 
   implicit val stringMonoid: Monoid[String] =
-    new Semigroup.StringSemigroup with Monoid[String] {
-      override def empty: String = ""
-    }
+    instance("")(_ ++ _)
 
   implicit val booleanMonoid: Monoid[Boolean] =
-    new Semigroup.BooleanSemigroup with Monoid[Boolean] {
-      override def empty: Boolean = true
-    }
+    instance(true)(_ && _)
 
   implicit def listMonoid[A]: Monoid[List[A]] =
-    new Semigroup.ListSemigroup[A] with Monoid[List[A]] {
-      override def empty: List[A] = List.empty[A]
-    }
+    instance(List.empty[A])(_ ++ _)
 
   implicit def optionsMonoid[A: Semigroup]: Monoid[Option[A]] =
-    new Semigroup.OptionSemigroup[A] with Monoid[Option[A]] {
-      override def empty: Option[A] = Option.empty[A]
-    }
+    instance(Option.empty[A])(Semigroup.combineOptions)
 
   implicit def mapMonoid[K, V: Semigroup]: Monoid[Map[K, V]] =
-    new Semigroup.MapSemigroup[K, V] with Monoid[Map[K, V]] {
-      override def empty: Map[K, V] = Map.empty[K, V]
-    }
+    instance(Map.empty[K, V])((lMap, rMap) => Semigroup.mapCombine2(lMap, rMap))
 
   implicit def function1AndThenMonoid[A]: Monoid[A => A] =
-    new Semigroup.Function1AndThenSemigroup[A] with Monoid[A => A] {
-      override def empty: A => A = identity
-  }
+    instance(identity[A](_))(_ andThen _)
 
   def function1ComposeMonoid[A]: Monoid[A => A] =
-    new Semigroup.Function1ComposeSemigroup[A] with Monoid[A => A] {
-      override def empty: A => A = identity
-  }
+    instance(identity[A](_))(_ compose _)
 
   def function1ApplyMonoid[A, B: Monoid]: Monoid[A => B] =
-    new Semigroup.Function1ApplySemigroup[A, B] with Monoid[A => B] {
-      override def empty: A => B = _ => Monoid[B].empty
+    instance { (_: A) =>
+      Monoid[B].empty
+    } { (f: A => B, g: A => B) => a =>
+      f(a) combine g(a)
     }
 }

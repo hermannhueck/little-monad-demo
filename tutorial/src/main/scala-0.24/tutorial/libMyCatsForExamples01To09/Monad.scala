@@ -3,7 +3,7 @@ package tutorial.libMyCatsForExamples01To09
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 
-trait Monad[F[?]]:
+trait Monad[F[_]]:
 
   def pure[A](a: A): F[A]  
   def [A, B](fa: F[A]) flatMap (f: A => F[B]): F[B]

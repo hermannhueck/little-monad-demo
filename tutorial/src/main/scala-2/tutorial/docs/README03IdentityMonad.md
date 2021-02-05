@@ -21,7 +21,7 @@ case class Id[A](value: A)
 
 But it's sufficient to define _Id_ as a type alias:
 
-```scala mdoc
+```scala
 type Id[A] = A
 ```
 
@@ -30,22 +30,8 @@ inside the Monad companion. It's analogous to the Monad
 instances for _List_, _Option_ and _Future_ we already
 defined.
 
-```scala mdoc:invisible
-// mdoc:invisible
-trait Monad[F[_]] {
 
-  def pure[A](a: A): F[A]
-  def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
-
-  final def map[A, B](fa: F[A])(f: A => B): F[B] =
-    flatMap(fa)(a => pure(f(a)))
-  final def flatten[A](fa: F[F[A]]): F[A] =
-    flatMap(fa)(identity)
-}
-// mdoc:invisible
-```
-
-```scala mdoc
+```scala
 object Monad {
 
   def apply[F[_]: Monad]: Monad[F] = implicitly[Monad[F]] // summoner
@@ -82,7 +68,7 @@ Alternatively we can use a generic solution which works for
 any type that has a Monad instance, but doesn't provide
 it's own _flatMap_ and _map_.
 
-```scala mdoc
+```scala
 implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
 
   def flatMap[B](f: A => F[B]): F[B] =
@@ -99,22 +85,16 @@ relies on the Monad summoner provided in the _Monad_ companion object.
 With this we can use our parametric _compute_ method also
 with pure _Int_ values type-aliased to _Id[Int]_.
 
-```scala mdoc:invisible
-// mdoc:invisible
-def compute[F[_]: Monad, A, B](fa: F[A], fb: F[B]): F[(A, B)] =
-  for {
-    a <- fa
-    b <- fb
-  } yield (a, b)
-// mdoc:invisible
-```
 
-```scala mdoc
+```scala
 val x1: Id[Int] = 42
+// x1: Id[Int] = 42
 val y1: Id[Int] = 42
+// y1: Id[Int] = 42
 
 // uses monadic compute method for F[Int]
 val result1 = compute(x1, y1)
+// result1: (Int, Int) = (42, 42)
 ```
 
 _x1_ and _y1_ must be type annotated to _Id[Int]_ to be accepted as arguments to _compute_.

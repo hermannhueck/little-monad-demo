@@ -4,6 +4,7 @@ target/
 # hidden directories
 .idea/
 .bloop/
+.bsp/
 .metals/
 .vscode/
 
@@ -12,6 +13,7 @@ target/
 *.log
 *.jar
 *.zip
+metals.sbt
 
 # hidden files
 .history

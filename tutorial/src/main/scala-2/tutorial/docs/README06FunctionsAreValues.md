@@ -34,34 +34,45 @@ or stuff a _Function1_ into a case class (_Reader Monad_).
 
 A _List_ of functions from _Int_ to _Int_:
 
-```scala mdoc
+```scala
 val lf1: List[Int => Int] = List(_ + 1, _ + 2, _ + 3)
+// lf1: List[Int => Int] = List(<function1>, <function1>, <function1>)
 ```
 
 With _List#map_ we can apply these functions to a value
 and get a _List_ of _Int_ values as a result:
 
-```scala mdoc
+```scala
 lf1.map(f => f(10)) // List(11, 12, 13)
+// res0: List[Int] = List(11, 12, 13)
 ```
 
 With _List#map_ we can also manipulate the functions
 by composing them with another function.
 
-```scala mdoc
+```scala
 val double: Int => Int = _ * 2
+// double: Int => Int = <function1>
 val lf2 = lf1 map (f => f andThen double)
+// lf2: List[Int => Int] = List(
+//   scala.Function1$$Lambda$8949/0x000000080234f840@685aeeef,
+//   scala.Function1$$Lambda$8949/0x000000080234f840@1c564f67,
+//   scala.Function1$$Lambda$8949/0x000000080234f840@67d18571
+// )
 lf2.map(f => f(10)) // List(22, 24, 26)
+// res1: List[Int] = List(22, 24, 26)
 ```
 
 It is also possible to fold over the _List_ of
 _Function1_, thus composing them all with _andThen_ to a
 single function.
 
-```scala mdoc
+```scala
 val fComposed: Int => Int =
   lf1.fold(identity[Int] _)((f, g) => f andThen g)
+// fComposed: Int => Int = scala.Function1$$Lambda$8949/0x000000080234f840@706420c6
 val result: Int = fComposed(10) // 16
+// result: Int = 16
 ```
 
 ## Eta expansion
@@ -73,8 +84,7 @@ below shows 4 variants of eta expansions, the first
 is very explicit, the last one expands the method
 name implicitly without further ceremony.
 
-```scala mdoc
-
+```scala
 def times2(x: Int): Int = x * 2
 
 // times2 is a method.
@@ -82,13 +92,17 @@ def times2(x: Int): Int = x * 2
 
 // explicitly expanding times2 to a function
 List(1, 2, 3) map { x => times2(x) }
+// res2: List[Int] = List(2, 4, 6)
 
 // using _
 List(1, 2, 3) map { times2(_) }
+// res3: List[Int] = List(2, 4, 6)
 
 // using _ appended to the method name (no longer supported in Scala 3)
 List(1, 2, 3) map { times2 _ }
+// res4: List[Int] = List(2, 4, 6)
 
 // implicit expansion just using the method name
 List(1, 2, 3) map times2
+// res5: List[Int] = List(2, 4, 6)
 ```

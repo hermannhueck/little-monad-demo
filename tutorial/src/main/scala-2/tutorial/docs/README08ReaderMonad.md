@@ -38,7 +38,7 @@ a _Function1_ (called _run_ instead of _f_) which allows us to implement
 functionality directly on the wrapper. The implementation
 of _Reader_ is located in the sub package _libMyCats_.
 
-```scala mdoc:reset-object
+```scala
 final case class Reader[P, A](run: P => A) {
 
   def map[B](f: A => B): Reader[P, B] =
@@ -78,22 +78,8 @@ easy to define a Monad instance in the companion object
 which implements _pure_ and delegates _flatMap_ to
 _Reader#flatMap_.
 
-```scala mdoc:invisible
-// mdoc:invisible
-trait Monad[F[_]] {
 
-  def pure[A](a: A): F[A]
-  def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
-
-  final def map[A, B](fa: F[A])(f: A => B): F[B] =
-    flatMap(fa)(a => pure(f(a)))
-  final def flatten[A](fa: F[F[A]]): F[A] =
-    flatMap(fa)(identity)
-}
-// mdoc:invisible
-```
-
-```scala mdoc
+```scala
 object Reader {
 
   implicit def readerMonad[P]: Monad[Reader[P, *]] = new Monad[Reader[P, *]] {
@@ -125,34 +111,18 @@ As _Reader_ has a Monad instance it now can be used in
 for-comprehensions and we can pass instances of _Reader_
 to our generic _compute_ method.
 
-```scala mdoc:invisible
-// mdoc:invisible
-object Monad {
-  def apply[F[_]: Monad]: Monad[F] = implicitly[Monad[F]] // summoner
-}
 
-implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
-  def flatMap[B](f: A => F[B]): F[B] =
-    Monad[F].flatMap(fa)(f)
-  def map[B](f: A => B): F[B] =
-    Monad[F].map(fa)(f)
-}
-
-def compute[F[_]: Monad, A, B](fa: F[A], fb: F[B]): F[(A, B)] =
-  for {
-    a <- fa
-    b <- fb
-  } yield (a, b)
-// mdoc:invisible
-```
-
-```scala mdoc
+```scala
 val rPlus1: Reader[Int, Int]   = Reader(_ + 1)
+// rPlus1: Reader[Int, Int] = Reader(run = <function1>)
 val rDoubled: Reader[Int, Int] = Reader(_ * 2)
+// rDoubled: Reader[Int, Int] = Reader(run = <function1>)
 
 val rCompute: Reader[Int, (Int, Int)] =
   compute(rPlus1, rDoubled)
+// rCompute: Reader[Int, (Int, Int)] = Reader(run = <function1>)
 val result = rCompute.run(10) // (11, 20)
+// result: (Int, Int) = (11, 20)
 ```
 
 ## Interpreter pattern
@@ -246,7 +216,7 @@ We use _Reader_ to wrap functions from _(Database => A)_, where _A_ represents t
 The _Database_ is the type of the input which we will
 supply at the very end.
 
-```scala mdoc
+```scala
 final case class Database(
     users: Map[Int, String],
     passwords: Map[Int, String]
@@ -261,7 +231,7 @@ In our _DBReaderApp_
 we define two methods _getUserId_ and _checkUserPassword_
 which both return a _Reader[Database, A]_.
 
-```scala mdoc
+```scala
 def getUserId(
     name: String
   ): Reader[Database, Option[Int]] = ???
@@ -277,7 +247,7 @@ for-comprehension and get a _Reader_ back, which takes a
 _Database_ and returns a _Boolean_ that indicates whether
 the user's credentials were correct or not.
 
-```scala mdoc
+```scala
 def checkLogin(
     username: String,
     password: String
@@ -295,7 +265,7 @@ is not yet executed / interpreted.
 We have to inject a _Database_ instance for the DB queries
 to be executed and receive the final query result.
 
-```scala mdoc:compile-only
+```scala
 val db = Database.get
 val correct = checkLogin("kate", "acidburn").run(db)
 ```

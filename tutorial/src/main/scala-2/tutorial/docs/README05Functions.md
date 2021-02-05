@@ -24,31 +24,39 @@ trait Function2[-T1, -T2, +R] { // simplified
 A concrete function is just an instance of the respective
 function trait.
 
-```scala mdoc
+```scala
 val f2Verbose: Function2[Int, Int, Int] =
   new Function2[Int, Int, Int] {
     def apply(x: Int, y: Int): Int = x + y
   }
+// f2Verbose: (Int, Int) => Int = <function2>
 ```
 
 This is verbose and Scala has syntactic sugar for it:
 
-```scala mdoc
+```scala
 // All versions are semantically identical.
 val f2a: (Int, Int) => Int        = (x, y) => x + y
+// f2a: (Int, Int) => Int = <function2>
 val f2b: Function2[Int, Int, Int] = _ + _
+// f2b: (Int, Int) => Int = <function2>
 val f2c                           = (x: Int, y: Int) => x + y
+// f2c: (Int, Int) => Int = <function2>
 val f2d                           = (_: Int) + (_: Int)
+// f2d: (Int, Int) => Int = <function2>
 ```
 
 The mostly used function is _Function1_. Scala also
 provides a shortcut for the _Function1_ type:
 _A => B_ desugars to _Function1[A, B]_.
 
-```scala mdoc
+```scala
 val f1a: Function1[Int, Int] = x => x + 1
+// f1a: Int => Int = <function1>
 val f1b: Int => Int          = x => x + 1
+// f1b: Int => Int = <function1>
 val f1c: Int => Int          = _ + 1
+// f1c: Int => Int = <function1>
 ```
 
 This is just a repetition of basic Scala knowledge.
@@ -84,9 +92,11 @@ trait Function1[-T, +R] { // simplified
 
 _compose_ is just _andThen_ with the arguments flipped.
 
-```scala mdoc
+```scala
 val plus1: (Int => Int)  = _ + 1
+// plus1: Int => Int = <function1>
 val square: (Int => Int) = x => x * x
+// square: Int => Int = <function1>
 
 assert {
   (plus1 andThen square)(42) ==
@@ -115,13 +125,17 @@ _FunctionN_ can be tupled. They provide a method
 _tupled_, which wraps all args in a tuple and returns
 a _Function1_ which takes a tuple as parameter.
 
-```scala mdoc
+```scala
 val add: Function2[Int, Int, Int]  = _ + _
+// add: (Int, Int) => Int = <function2>
 
 val addTupled: ((Int, Int)) => Int = add.tupled
+// addTupled: (Int, Int) => Int = scala.Function2$$Lambda$8061/0x0000000801fad040@3745c4e5
 
 val pair: (Int, Int)  = (21, 21)
+// pair: (Int, Int) = (21, 21)
 val sumFromTuple: Int = addTupled(pair) // 42
+// sumFromTuple: Int = 42
 ```
 
 ### Currying of _FunctionN_ (where N > 1)
@@ -146,13 +160,17 @@ _Int_. We name it _plus40_. Applying *plus40* to
 another _Int_ in a second step gives us the final _Int_
 result.
 
-```scala mdoc:reset
+```scala
 val add: Function2[Int, Int, Int]  = _ + _
+// add: (Int, Int) => Int = <function2>
 
 val addCurried: Int => Int => Int = add.curried
+// addCurried: Int => Int => Int = scala.Function2$$Lambda$8951/0x000000080234e040@47d67551
 
 val plus40: Int => Int = addCurried(40)
+// plus40: Int => Int = scala.Function2$$Lambda$8952/0x000000080234d040@555d81f6
 val sum: Int = plus40(2) // 42
+// sum: Int = 42
 ```
 
 _Function1_ is much better composable than _FunctionN_.

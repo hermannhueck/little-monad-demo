@@ -2,26 +2,25 @@ import ScalacOptions._
 import Dependencies._
 
 val projectName        = "little-monad-tutorial"
-val projectDescription = "Little Monad Tutorial in Scala (Scala 2 & Dotty)"
-val projectVersion     = "0.1.0"
+val projectDescription = "Little Monad Tutorial in Scala (Scala 2 & 3)"
+val projectVersion     = "0.2.0"
 
-val dottyVersion = "0.24.0-RC1"
-// val dottyVersion   = dottyLatestNightlyBuild.get
-val scala2xVersion = "2.13.2"
+val scala3Version = "3.0.0-M3"
+// val scala3Version   = dottyLatestNightlyBuild.get
+val scala2Version = "2.13.4"
 
 inThisBuild(
   Seq(
-    name := projectName,
     description := projectDescription,
     version := projectVersion,
-    scalaVersion := dottyVersion,
-    crossScalaVersions := Seq(dottyVersion, scala2xVersion), // cross compile with Dotty and Scala 2
+    scalaVersion := scala3Version,
+    crossScalaVersions := Seq(scala3Version, scala2Version), // cross compile with Dotty and Scala 2
     publish / skip := true,
     initialCommands :=
       s"""|
           |import scala.util.chaining._
           |println
-          |""".stripMargin // initialize REPL
+          |""".stripMargin                                   // initialize REPL
   )
 )
 
@@ -29,8 +28,7 @@ lazy val root = (project in file("."))
   .aggregate(tutorial)
   .settings(
     name := projectName,
-    description := projectDescription,
-    sourceDirectories := Seq.empty
+    description := projectDescription
   )
 
 lazy val tutorial = (project in file("tutorial"))
@@ -38,7 +36,7 @@ lazy val tutorial = (project in file("tutorial"))
     name := "tutorial",
     description := projectDescription,
     scalacOptions ++= scalacOptionsFor(scalaVersion.value),
-    libraryDependencies ++= dependenciesFor(scalaVersion.value),
+    libraryDependencies ++= dependenciesFor(scalaVersion.value)
   )
 
 lazy val docs = project
@@ -46,16 +44,16 @@ lazy val docs = project
   .dependsOn(tutorial)
   .enablePlugins(MdocPlugin)
   .settings(
-    scalaVersion := scala2xVersion, // mdoc supports Scala 2.x, not Dotty
+    scalaVersion := scala2Version, // mdoc supports Scala 2.x, not Dotty
     crossScalaVersions := Seq.empty[String],
-    addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.0" cross CrossVersion.full)
+    addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorVersion cross CrossVersion.full)
   )
   .settings(
     mdocIn := file("tutorial-docs/src"),
-    mdocOut := file("tutorial/src/main/scala-2.13/tutorial/docs"),
+    mdocOut := file("tutorial/src/main/scala-2/tutorial/docs"),
     mdocVariables := Map(
       "VERSION" -> version.value
-    ),
+    )
     // mdocExtraArguments := Seq("--clean-target")
     // mdocExtraArguments := Seq("--verbose")
     // mdocExtraArguments := Seq("--clean-target", "--verbose")

@@ -14,7 +14,7 @@ _libMyCats_. The Monad trait also provides
 implementations for other concrete methods like _map_
 and _flatten_.
 
-```scala mdoc
+```scala
 trait Monad[F[_]] {
 
   // intrinsic abstract Monad methods
@@ -45,7 +45,7 @@ These implementations are _implicit val_'s and _def_'s, best
 placed in the Monad companion object (in sub package
 _libMyCats_):
 
-```scala mdoc
+```scala
 object Monad {
 
   def apply[F[_]: Monad]: Monad[F] = implicitly[Monad[F]] // summoner
@@ -94,7 +94,7 @@ where it can be resolved if *libMyCats._* is imported at the call site.
 The implementation of these two method uses the provided summoner to summon
 a Monad instance for *F[_]* and invoke _flatMap_ or _map_ on that instance.
 
-```scala mdoc
+```scala
 implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
 
   def flatMap[B](f: A => F[B]): F[B] =
@@ -108,7 +108,7 @@ implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
 Now the preconditions are met to define our generic _computeInts_ method,
 which we do in the package object _tutorial.libMyCats_:
 
-```scala mdoc
+```scala
 def computeInts[F[_]: Monad](fInt1: F[Int], fInt2: F[Int]): F[(Int, Int)] =
   for {
     i1 <- fInt1
@@ -131,7 +131,7 @@ the _Int_'s up to pairs. As this operation is not _Int_-specific,
 we can also abstract the _Int_'s away and replace them with
 the type parameters _A_ and _B_.
 
-```scala mdoc
+```scala
 def compute[F[_]: Monad, A, B](fa: F[A], fb: F[B]): F[(A, B)] =
   for {
     a <- fa
@@ -149,7 +149,7 @@ We can use our generic _compute_ also with any other effect
 type in case we provide a Monad instance for that type,
 which we will do in subsequent chapters.
 
-```scala mdoc
+```scala
 def compute2[F[_], A, B](fa: F[A], fb: F[B])(implicit m: Monad[F]): F[(A, B)] =
   fa.flatMap { a =>
     fb.map { b =>

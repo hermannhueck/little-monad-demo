@@ -8,7 +8,7 @@ Let's define an interface for a _Joiner_ which
 can join two values of the same type _A_ returning
 a joined value of this very type _A_.
 
-```scala mdoc
+```scala
 trait Joiner[A] {
   def join(lhs: A, rhs: A): A
 }
@@ -25,7 +25,7 @@ values of type _List[A]_ with the _++_ operation. Here
 the _A_ remains abstract, because we don't need to
 know the element type of the lists to concatenate them.
 
-```scala mdoc
+```scala
 object Joiner {
 
   def apply[A: Joiner]: Joiner[A] = implicitly
@@ -49,7 +49,7 @@ For the syntax extension we provide an implicit class
 with an extension method _join_ in order to invoke
 join directly as a method of the left value.
 
-```scala mdoc
+```scala
 implicit class JoinSyntax[A](lhs: A) {
   def join(rhs: A)(implicit joiner: Joiner[A]): A =
     joiner.join(lhs, rhs)
@@ -59,12 +59,16 @@ implicit class JoinSyntax[A](lhs: A) {
 With this machinery we can join two _Int_ values
 adding them up or two _List_'s concatenating them.
 
-```scala mdoc
+```scala
 val intsJoined = 2 join 3
+// intsJoined: Int = 5
 
 val li1      = List(1, 2, 3)
+// li1: List[Int] = List(1, 2, 3)
 val li2      = List(11, 12, 13)
+// li2: List[Int] = List(11, 12, 13)
 val liJoined = li1 join li2
+// liJoined: List[Int] = List(1, 2, 3, 11, 12, 13)
 ```
 
 This _Joiner_ in fact is a _Semigroup_.
@@ -89,7 +93,7 @@ type _A_ and and returns a single _A_, the result of joining
 all _A_ values of the _List_. _joinAll_ is defined in terms
 of _zero_ and _join_ using the _List#fold_ method.
 
-```scala mdoc:reset
+```scala
 trait Joiner[A] {
 
   def zero: A
@@ -111,7 +115,7 @@ the other _List_.
 We extend our _Joiner[Int]_ and _Joiner[List[A]]_
 instances accordingly.
 
-```scala mdoc
+```scala
 object Joiner {
 
   def apply[A: Joiner]: Joiner[A] = implicitly
@@ -136,7 +140,7 @@ allows us to invoke _join_ as a method of the _lhs_ value.
 The extension method _joinAll_ (defined in _ListSyntax_)
 allows us to invoke _joinAll_ like a _List_ method.
 
-```scala mdoc
+```scala
 implicit class JoinSyntax[A](lhs: A) {
   def join(rhs: A)(implicit joiner: Joiner[A]): A =
     joiner.join(lhs, rhs)
@@ -155,14 +159,21 @@ because we have a _Joiner[List[A]]_ in implicit scope
 And we can join a _List[Int]_ to a single _Int_ value,
 because we also have a _Joiner[Int]_ in implicit scope.
 
-```scala mdoc
+```scala
 val lists = List(List(1, 2, 3), List(11, 12, 13), List(21, 22, 23))
+// lists: List[List[Int]] = List(
+//   List(1, 2, 3),
+//   List(11, 12, 13),
+//   List(21, 22, 23)
+// )
 
 // join a List[List[Int]] to a single List[Int]
 val ints = lists.joinAll
+// ints: List[Int] = List(1, 2, 3, 11, 12, 13, 21, 22, 23)
 
 // joins a List[Int] to a single Int value
 val sum = ints.joinAll
+// sum: Int = 108
 ```
 
 This _Joiner_ in fact is a _Monoid_.
@@ -191,7 +202,7 @@ we rename:
 - _join_ -> _combine_
 - _joinAll_ -> _combineAll_
 
-```scala mdoc:reset
+```scala
 trait Monoid[A] {
 
   def empty: A
@@ -204,7 +215,7 @@ trait Monoid[A] {
 
 Let's factor out _combine_ to the _Semigroup_ trait:
 
-```scala mdoc:reset
+```scala
 trait Semigroup[A] {
   def combine(lhs: A, rhs: A): A
 }
@@ -223,7 +234,7 @@ Now we define the _Semigroup_ instances in the
 _Semigroup_ companion object and the _Monoid_
 instances in the _Monoid_ companion object:
 
-```scala mdoc
+```scala
 object Semigroup {
 
   def apply[A: Semigroup]: Semigroup[A] = implicitly // summoner

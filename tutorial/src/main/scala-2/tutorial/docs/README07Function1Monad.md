@@ -17,20 +17,6 @@ We place the implicit implementation again into the _Monad_
 companion object, as we cannot access the _Function1_ code
 in the Scala standard library.
 
-```scala mdoc:invisible
-// mdoc:invisible
-trait Monad[F[_]] {
-
-  def pure[A](a: A): F[A]
-  def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
-
-  final def map[A, B](fa: F[A])(f: A => B): F[B] =
-    flatMap(fa)(a => pure(f(a)))
-  final def flatten[A](fa: F[F[A]]): F[A] =
-    flatMap(fa)(identity)
-}
-// mdoc:invisible
-```
 
 ```scala
 object Monad {
@@ -53,7 +39,7 @@ for _Function1_.
 _X => Y_ is syntactic sugar for _Function1[X, Y]_.
 Using this as a replacement our _function1Monad_ looks like this:
 
-```scala mdoc
+```scala
 object Monad {
 
   def apply[F[_]: Monad]: Monad[F] = implicitly[Monad[F]] // summoner
@@ -76,7 +62,7 @@ Monad.
 
 Here is the code again:
 
-```scala mdoc
+```scala
 implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
 
   def flatMap[B](f: A => F[B]): F[B] =
@@ -90,23 +76,18 @@ implicit class MonadSyntax[F[_]: Monad, A](fa: F[A]) {
 We now can use our monadic compute method with the
 newly defined _Function1_ Monad.
 
-```scala mdoc:invisible
-// mdoc:invisible
-def compute[F[_]: Monad, A, B](fa: F[A], fb: F[B]): F[(A, B)] =
-  for {
-    a <- fa
-    b <- fb
-  } yield (a, b)
-// mdoc:invisible
-```
 
-```scala mdoc
+```scala
 val plus1: Int => Int = (x => x + 1)
+// plus1: Int => Int = <function1>
 val times2: Int => Int = (x => x * 2)
+// times2: Int => Int = <function1>
 
 val fn2: Int => (Int, Int) =
   compute(plus1, times2)
+// fn2: Int => (Int, Int) = <function1>
 val result: (Int, Int) = fn2(10) // (11, 20)
+// result: (Int, Int) = (11, 20)
 ```
 
 With _Function1_ Monad the _compute_ method does not

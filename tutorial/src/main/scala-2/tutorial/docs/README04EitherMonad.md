@@ -93,22 +93,8 @@ The implementation of the _Either_ Monad is straightforward: _pure_
 lifts a value into a _Right_ and _flatMap_ just
 delegates to the _flatMap_ implementation of _Either_:
 
-```scala mdoc:invisible
-// mdoc:invisible
-trait Monad[F[_]] {
 
-  def pure[A](a: A): F[A]
-  def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
-
-  final def map[A, B](fa: F[A])(f: A => B): F[B] =
-    flatMap(fa)(a => pure(f(a)))
-  final def flatten[A](fa: F[F[A]]): F[A] =
-    flatMap(fa)(identity)
-}
-// mdoc:invisible
-```
-
-```scala mdoc
+```scala
 object Monad {
 
   def apply[F[_]: Monad]: Monad[F] = implicitly[Monad[F]] // summoner
@@ -130,26 +116,13 @@ it explicitly into the local scope of the call site.
 Now we can pass instances of _Either[Int]_ to our generic
 _compute_ method as we do in _Example04_.
 
-```scala mdoc:invisible
-// mdoc:invisible
-implicit final class MonadSyntax[F[_]: Monad, A](private val fa: F[A]) {
-  @inline def flatMap[B](f: A => F[B]): F[B] =
-    Monad[F].flatMap(fa)(f)
-  @inline def map[B](f: A => B): F[B] =
-    Monad[F].map(fa)(f)
-}
 
-def compute[F[_]: Monad, A, B](fa: F[A], fb: F[B]): F[(A, B)] =
-  for {
-    a <- fa
-    b <- fb
-  } yield (a, b)
-// mdoc:invisible
-```
-
-```scala mdoc
+```scala
 val e1 = Right(13).withLeft[String]
+// e1: Either[String, Int] = Right(value = 13)
 val e2 = Right(21).withLeft[String]
+// e2: Either[String, Int] = Right(value = 21)
 
 val eResult = compute(e1, e2) // Right((13, 21))
+// eResult: Either[String, (Int, Int)] = Right(value = (13, 21))
 ```

@@ -30,7 +30,7 @@ object Example13KleisliWithMonad extends App {
   s"${line(10)} Kleisli Composition defined on Function1".green pipe println
 
   "andThenF:  ".green pipe print
-  (s2iOpt andThenF plus2Opt andThenF div10ByOpt andThenF d2sOpt)("3") pipe println  
+  (s2iOpt andThenF plus2Opt andThenF div10ByOpt andThenF d2sOpt)("3") pipe println
   "kleisli:   ".green pipe print
   (s2iOpt kleisli plus2Opt kleisli div10ByOpt kleisli d2sOpt)("3") pipe println
   ">=>:       ".green pipe print

@@ -3,13 +3,13 @@ package tutorial.examples01To07
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Await
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 import scala.util.{Failure, Success}
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 
-import util._
-import scala.util.chaining._
+import util.*
+import scala.util.chaining.*
 
 @main def Example02(): Unit =
 

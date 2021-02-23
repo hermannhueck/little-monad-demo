@@ -1,9 +1,9 @@
 package tutorial.examples10To12
 
-import scala.util.chaining._
-import util._
+import scala.util.chaining.*
+import util.*
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 // should work w/o this import
 import tutorial.libMyCats.Semigroup.given
 

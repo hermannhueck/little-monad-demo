@@ -44,7 +44,7 @@ object ScalacOptions {
     "-explain",         // Explain errors in more detail.
     "-explain-types",   // Explain type errors in more detail.
     "-source",
-    "3.1",
+    "future",
     "-new-syntax",      // require `then` and `do` in control expressions
     "-indent",          // allow significant indentation
     "-feature",         // emit warning and location for usages of features that should be imported explicitly

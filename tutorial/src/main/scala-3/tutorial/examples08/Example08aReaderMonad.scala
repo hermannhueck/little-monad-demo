@@ -1,9 +1,9 @@
 package tutorial.examples08
 
-import scala.util.chaining._
-import util._
+import scala.util.chaining.*
+import util.*
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 
 @main def Example08aReaderMonad: Unit = {
 

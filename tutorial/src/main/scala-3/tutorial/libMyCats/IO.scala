@@ -1,13 +1,11 @@
 package tutorial.libMyCats
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 import scala.util.Try
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
-
-import scala.annotation._
 
 final case class IO[A](unsafeRun: () => A):
 
@@ -34,8 +32,8 @@ object IO:
 
   given Monad[IO] with
     override def pure[A](a: A): IO[A] = IO pure a
-    extension [A, B](io: IO[A])
-      infix override def flatMap (f: A => IO[B]): IO[B] =
+    extension [A](io: IO[A])
+      infix override def flatMap[B](f: A => IO[B]): IO[B] =
         io flatMap f
 
   // pure is eager, a is passed by value

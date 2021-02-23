@@ -58,15 +58,14 @@ object Example02MyMonadImpl extends App {
     case Success(value)     => println(value)
   }
 
-  fResult onComplete (
-      tryy =>
-        println(
-          tryy.fold(
-            throwable => throwable.getMessage,
-            value => value.toString
-          )
-        )
+  fResult onComplete (tryy =>
+    println(
+      tryy.fold(
+        throwable => throwable.getMessage,
+        value => value.toString
+      )
     )
+  )
 
   Thread sleep 500L
 

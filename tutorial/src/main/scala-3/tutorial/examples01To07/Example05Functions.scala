@@ -1,7 +1,7 @@
 package tutorial.examples01To07
 
-import scala.util.chaining._
-import util._
+import scala.util.chaining.*
+import util.*
 
 @main def Example05: Unit = {
 

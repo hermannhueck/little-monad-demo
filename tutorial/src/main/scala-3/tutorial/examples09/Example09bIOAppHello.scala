@@ -1,9 +1,9 @@
 package tutorial.examples09
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 
-import scala.util.chaining._
-import util._
+import scala.util.chaining.*
+import util.*
 
 @main def IOAppHello: Unit = {
 

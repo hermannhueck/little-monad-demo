@@ -1,9 +1,9 @@
 package tutorial.examples01To07
 
-import scala.util.chaining._
-import util._
+import scala.util.chaining.*
+import util.*
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 
 @main def Example04: Unit = {
 
@@ -27,8 +27,8 @@ import tutorial.libMyCats._
   Left("error").withRight[Int].map(_ * 2) pipe println
   Left("error").withRight[Int].swap.map(_.toUpperCase).swap pipe println
 
-  extension [L, L2, R](either: Either[L, R])
-    def leftMap (f: L => L2): Either[L2, R] =
+  extension [L, R](either: Either[L, R])
+    def leftMap[L2](f: L => L2): Either[L2, R] =
       either.swap.map(f).swap
 
   Left("error").withRight[Int].leftMap(_.toUpperCase) pipe println

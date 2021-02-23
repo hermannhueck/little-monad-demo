@@ -1,9 +1,9 @@
 package tutorial.examples01To07
 
-import scala.util.chaining._
-import util._
+import scala.util.chaining.*
+import util.*
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 // TODO: Function1 Monad should be found in implicit scope (companion object) without explicit import
 import tutorial.libMyCats.Monad.given
 

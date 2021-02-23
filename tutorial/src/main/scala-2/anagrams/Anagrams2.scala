@@ -24,11 +24,11 @@ object Anagrams2 extends App {
 
   def isAnagram2Helper(toCheck: List[Char], word: List[Char]): Boolean =
     (toCheck, word) match {
-      case (Nil, Nil) => true
-      case (Nil, _)   => false
+      case (Nil, Nil)                               => true
+      case (Nil, _)                                 => false
       case (ch :: tail, chars) if chars contains ch =>
         isAnagram2Helper(tail, deleteFrom(chars, ch))
-      case _ => false
+      case _                                        => false
     }
 
   def deleteFrom(chars: List[Char], ch: Char): List[Char] =

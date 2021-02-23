@@ -3,10 +3,10 @@ package tutorial.examples01To07
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Await
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
 
-import util._
-import scala.util.chaining._
+import util.*
+import scala.util.chaining.*
 
 def compute(list1: List[Int], list2: List[Int]): List[(Int, Int)] =
   for

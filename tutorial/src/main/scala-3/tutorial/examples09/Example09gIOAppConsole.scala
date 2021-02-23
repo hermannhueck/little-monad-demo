@@ -1,12 +1,12 @@
 package tutorial.examples09
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
-import scala.util.chaining._
-import util._
+import scala.util.chaining.*
+import util.*
 
 object IOAppConsole extends App {
 

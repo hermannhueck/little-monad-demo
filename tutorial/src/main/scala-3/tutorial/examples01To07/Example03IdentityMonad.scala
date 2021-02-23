@@ -1,9 +1,9 @@
 package tutorial.examples01To07
 
-import tutorial.libMyCats._
+import tutorial.libMyCats.*
 
-import util._
-import scala.util.chaining._
+import util.*
+import scala.util.chaining.*
 
 @main def Example03: Unit =
 

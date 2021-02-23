@@ -1,9 +1,9 @@
 package tutorial.examples10To12
 
-import util._
-import scala.util.chaining._
+import util.*
+import scala.util.chaining.*
 
-import Joiner._
+import Joiner.*
 // should work w/o this import
 import Joiner.given
 

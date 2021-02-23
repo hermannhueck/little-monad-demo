@@ -1,7 +1,7 @@
 package tutorial.examples09
 
-import scala.util.chaining._
-import util._
+import scala.util.chaining.*
+import util.*
 
 @main def HelloWithFunction0: Unit = {
 

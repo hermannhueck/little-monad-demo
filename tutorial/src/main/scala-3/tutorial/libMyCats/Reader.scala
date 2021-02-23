@@ -32,7 +32,7 @@ object Reader:
 
   given[P]: Monad[[R] =>> Reader[P, R]] with
     override def pure[A](a: A): Reader[P, A] = Reader pure a
-    extension [A, B](fa: Reader[P, A])
-      infix override def flatMap (f: A => Reader[P, B]): Reader[P, B] =
+    extension [A](fa: Reader[P, A])
+      infix override def flatMap[B](f: A => Reader[P, B]): Reader[P, B] =
         fa flatMap f
 end Reader

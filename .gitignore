@@ -7,6 +7,7 @@ target/
 .bsp/
 .metals/
 .vscode/
+.ammonite/
 
 # files
 *.class
@@ -19,8 +20,3 @@ metals.sbt
 .history
 .dotty-ide*
 .DS_Store
-
-project/metals.sbt
-.bloop/*
-.metals/*
-
